@@ -12,6 +12,7 @@ import TableRow from "@tiptap/extension-table-row";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
+import Underline from "@tiptap/extension-underline";
 
 export default function Editor() {
   const { setEditor } = useEditorStore();
@@ -44,6 +45,7 @@ export default function Editor() {
       TableCell,
       TableHeader,
       TableRow,
+      Underline,
       TaskItem.configure({
         nested: true,
       }),
