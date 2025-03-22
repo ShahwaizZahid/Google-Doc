@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { LucideIcon, Undo2Icon } from "lucide-react";
+import { LucideIcon, Undo2Icon, Redo2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 
@@ -43,6 +43,11 @@ export default function Toolbar() {
         label: "Undo",
         icon: Undo2Icon,
         onClick: () => editor?.chain().focus().undo().run(),
+      },
+      {
+        label: "Redo",
+        icon: Redo2Icon,
+        onClick: () => editor?.chain().focus().redo().run(),
       },
     ],
   ];
