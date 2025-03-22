@@ -11,13 +11,29 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
+import { useEditorStore } from "@/store/use-editor-store";
+
 export default function Editor() {
+  const { setEditor } = useEditorStore();
+
   const editor = useEditor({
+    onCreate({ editor }) {
+      setEditor(editor);
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    onDestroy: () => setEditor(null),
+    onUpdate: ({ editor }) => setEditor(editor),
+    onSelectionUpdate: ({ editor }) => setEditor(editor),
+    onTransaction: ({ editor }) => setEditor(editor),
+    onFocus: ({ editor }) => setEditor(editor),
+    onBlur: ({ editor }) => setEditor(editor),
+    onContentError: ({ editor }) => setEditor(editor),
     editorProps: {
       attributes: {
         style: "padding-left:56px; padding-right:56px;",
         class:
-          "focus:outline-none print:border-0 pbg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text mt-10",
+          "focus:outline-none print:border-0 pbg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text",
       },
     },
     extensions: [
