@@ -10,6 +10,9 @@ import {
   BoldIcon,
   ItalicIcon,
   UnderlineIcon,
+  MessageSquarePlusIcon,
+  ListTodoIcon,
+  RemoveFormatting,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
@@ -46,7 +49,7 @@ export default function Toolbar() {
     label: string;
     icon: LucideIcon;
     onClick: () => void;
-    iActive?: boolean;
+    isActive?: boolean;
   }[][] = [
     [
       {
@@ -99,6 +102,25 @@ export default function Toolbar() {
         },
       },
     ],
+    [
+      {
+        label: "Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("TODO: Comment"),
+        isActive: false, // TODO: Implement this feature
+      },
+      {
+        label: "List Todo",
+        icon: ListTodoIcon,
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),
+        isActive: editor?.isActive("taskList"),
+      },
+      {
+        label: "Remove Formatting",
+        icon: RemoveFormatting,
+        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+      },
+    ],
   ];
   return (
     <div className="bg-[#f1f4f9] px-2.5 py-0.5 rounded-[24px] min-h-[40px] flex items-center gap-x-0.5 overflow-x-auto">
@@ -113,6 +135,17 @@ export default function Toolbar() {
       {/* TODO: Font Size */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {sections[1].map((item) => (
+        <ToolbarButton key={item.label} {...item} />
+      ))}
+      {/* TODO: Text color */}
+      {/* TODO: Highlight color */}
+      <Separator orientation="vertical" className="h-6 bg-neutral-300" />
+      {/* TODO: Link */}
+      {/* TODO: Image */}
+      {/* TODO: Align */}
+      {/* TODO: Line height */}
+      {/* TODO: List */}
+      {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
     </div>
