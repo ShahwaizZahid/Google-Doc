@@ -13,6 +13,8 @@ import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
+import FontFamily from "@tiptap/extension-font-family";
+import TextStyle from "@tiptap/extension-text-style";
 
 export default function Editor() {
   const { setEditor } = useEditorStore();
@@ -46,6 +48,8 @@ export default function Editor() {
       TableHeader,
       TableRow,
       Underline,
+      FontFamily,
+      TextStyle,
       TaskItem.configure({
         nested: true,
       }),
