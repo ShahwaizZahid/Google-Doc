@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { type ColorResult, CirclePicker, SketchPicker } from "react-color";
 import { type Level } from "@tiptap/extension-heading";
 import {
   LucideIcon,
@@ -119,8 +120,10 @@ export default function Toolbar() {
         <ToolbarButton key={item.label} {...item} />
       ))}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
+      {/* Font family button */}
       <FontFamilyButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
+      {/* Heading lvl button */}
       <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO: Font Size */}
@@ -129,6 +132,7 @@ export default function Toolbar() {
         <ToolbarButton key={item.label} {...item} />
       ))}
       {/* TODO: Text color */}
+      <TextColorButton />
       {/* TODO: Highlight color */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO: Link */}
@@ -320,6 +324,33 @@ function HeadingLevelButton() {
             </button>
           </DropdownMenuItem>
         ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function TextColorButton() {
+  const { editor } = useEditorStore();
+
+  const value = editor?.getAttributes("textStyle").color || "#000000";
+
+  const onChange = (color: ColorResult) => {
+    editor?.chain().focus().setColor(color.hex).run();
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <span className="text-sm">A</span>
+          <div
+            className="h-0.5 w-full bg-black"
+            style={{ backgroundColor: value }}
+          ></div>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-0 border-0">
+        <SketchPicker color={value} onChange={onChange} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
