@@ -88,15 +88,15 @@ body {
 }
 
 .tiptap {
-/* Link styles */
-a {
-  color: var(--purple);
-  cursor: pointer;
+  /* Link styles */
+  a {
+    @apply text-blue-600
+  cursor-pointer;
 
-  &:hover {
-    color: var(--purple-contrast);
+    &:hover {
+      @apply underline;
+    }
   }
-}
 
   /* Image specfic style */
   img {
