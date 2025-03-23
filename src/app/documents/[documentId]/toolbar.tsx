@@ -21,6 +21,10 @@ import {
   ImageIcon,
   SearchIcon,
   UploadIcon,
+  AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
+  AlignJustifyIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
@@ -135,27 +139,21 @@ export default function Toolbar() {
         <ToolbarButton key={item.label} {...item} />
       ))}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* Font family button */}
-      <FontFamilyButton />
+      <FontFamilyButton /> {/* Font family button */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* Heading lvl button */}
-      <HeadingLevelButton />
+      <HeadingLevelButton /> {/* Heading lvl button */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO: Font Size */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
-      {/* TODO: Text color */}
-      <TextColorButton />
-      {/* TODO: Highlight color */}
-      <HighlightColorButton />
+      <TextColorButton /> {/* TODO: Text color */}
+      <HighlightColorButton /> {/* TODO: Highlight color */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* TODO: Link */}
-      <LinkButton />
-      {/* TODO: Image */}
-      <ImageButton />
-      {/* TODO: Align */}
+      <LinkButton /> {/* TODO: Link */}
+      <ImageButton /> {/* TODO: Image */}
+      <AlignButton /> {/* TODO: Align */}
       {/* TODO: Line height */}
       {/* TODO: List */}
       {sections[2].map((item) => (
@@ -507,5 +505,57 @@ function ImageButton() {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function AlignButton() {
+  const { editor } = useEditorStore();
+
+  const alignments = [
+    {
+      label: "Align left",
+      value: "left",
+      icon: AlignLeftIcon,
+    },
+    {
+      label: "Align center",
+      value: "center",
+      icon: AlignCenterIcon,
+    },
+    {
+      label: "Align right",
+      value: "right",
+      icon: AlignRightIcon,
+    },
+    {
+      label: "Justify",
+      value: "justify",
+      icon: AlignJustifyIcon,
+    },
+  ];
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <AlignLeftIcon className="size-4~" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-1 flex flex-col p-y-1">
+        {alignments.map(({ label, value, icon: Icon }) => (
+          <button
+            key={value}
+            onClick={() => editor?.chain().focus().setTextAlign(value).run()}
+            className={cn(
+              "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
+              editor?.isActive({ textAlign: value }) && "bg-neutral-200/80"
+            )}
+          >
+            <Icon />
+            <span className="text-sm">{label}</span>
+          </button>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
