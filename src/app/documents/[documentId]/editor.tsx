@@ -21,11 +21,13 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
+import Ruler from "./ruler";
 
 export default function Editor() {
   const { setEditor } = useEditorStore();
 
   const editor = useEditor({
+    immediatelyRender: false,
     onCreate({ editor }) {
       setEditor(editor);
     },
@@ -94,8 +96,9 @@ export default function Editor() {
   });
 
   return (
-    <div className="size-full overflow-x-auto flex justify-center bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
-      <div className="min-w-max flex justify-center i w-[816px]  py-y print:py-0 print:w-full print:min-w-0">
+    <div className="size-full overflow-x-auto   bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
+      <Ruler />
+      <div className="min-w-max mx-auto flex justify-center w-[816px]  py-y print:py-0 print:w-full print:min-w-0 mt-4">
         <EditorContent editor={editor} />
       </div>
     </div>
