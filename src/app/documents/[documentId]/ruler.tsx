@@ -1,20 +1,87 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 const marker = Array.from({ length: 83 }, (_, i) => i);
 
 export default function Ruler() {
+  const [leftMargin, setLeftMargin] = useState(56);
+  const [rightMargin, setRightMargin] = useState(56);
+
+  const [isDraggingLeft, setIsDraggingLeft] = useState(false);
+  const [isDraggingRight, setIsDraggingRight] = useState(false);
+
+  const rulerRef = useRef<HTMLDivElement>(null);
+
+  const handleLeftMouseDown = () => {
+    setIsDraggingLeft(true);
+  };
+  const handleRightMouseDown = () => {
+    setIsDraggingRight(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if ((isDraggingLeft || isDraggingRight) && rulerRef.current) {
+      const container = rulerRef.current.querySelector("#ruler-container");
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        const relativeX = e.clientX - containerRect.left;
+        const rawPosition = Math.max(0, Math.min(816, relativeX));
+
+        if (isDraggingLeft) {
+          const maxLeftPosition = 816 - rightMargin - 100;
+          const newLeftPosition = Math.min(rawPosition, maxLeftPosition);
+          setLeftMargin(newLeftPosition); //Make collaborative
+        } else if (isDraggingRight) {
+          const maxRightPosition = 816 - leftMargin - 100;
+          const newRightPosition = Math.max(0, Math.min(816, relativeX));
+          const constrainedRightPosition = Math.min(
+            816 - newRightPosition,
+            maxRightPosition
+          );
+          setRightMargin(constrainedRightPosition);
+        }
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDraggingLeft(false);
+    setIsDraggingRight(false);
+  };
+
+  const handleLeftDoubleClick = () => {
+    setLeftMargin(56);
+  };
+
+  const handleRightDoubleClick = () => {
+    console.log("double");
+    setRightMargin(56);
+  };
+
   return (
-    <div className="h-6 border-b border-gray-300 flex items-end select-none print:hidden">
+    <div
+      ref={rulerRef}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      className="h-6 border-b border-gray-300 flex items-end select-none print:hidden"
+    >
       <div
         id="ruler-container"
         className="max-w-[816px] mx-auto w-full h-full relative"
       >
         <Marker
-          position={56}
+          position={leftMargin}
           isLeft={true}
-          isDragging={false}
-          onDoubleClick={() => {}}
-          onMouseDown={() => {}}
+          isDragging={isDraggingLeft}
+          onMouseDown={handleLeftMouseDown}
+          onDoubleClick={handleLeftDoubleClick}
+        />
+        <Marker
+          position={rightMargin}
+          isLeft={false}
+          isDragging={isDraggingRight}
+          onMouseDown={handleRightMouseDown}
+          onDoubleClick={handleRightDoubleClick}
         />
         <div className="absolute inset-0 h-full bottom-0 ">
           <div className=" relative w-[816px] h-full">
@@ -74,7 +141,7 @@ const Marker = ({
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
-      <FaCaretDown className=" absolute left1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2 " />
+      <FaCaretDown className=" absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2 " />
     </div>
   );
 };
