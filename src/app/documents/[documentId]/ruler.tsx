@@ -19,20 +19,22 @@ export default function Ruler() {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    const PAGE_WIDTH = 816;
+    const MIN_SPACE = 100;
     if ((isDraggingLeft || isDraggingRight) && rulerRef.current) {
       const container = rulerRef.current.querySelector("#ruler-container");
       if (container) {
         const containerRect = container.getBoundingClientRect();
         const relativeX = e.clientX - containerRect.left;
-        const rawPosition = Math.max(0, Math.min(816, relativeX));
+        const rawPosition = Math.max(0, Math.min(PAGE_WIDTH, relativeX));
 
         if (isDraggingLeft) {
-          const maxLeftPosition = 816 - rightMargin - 100;
+          const maxLeftPosition = PAGE_WIDTH - rightMargin - MIN_SPACE;
           const newLeftPosition = Math.min(rawPosition, maxLeftPosition);
           setLeftMargin(newLeftPosition); //Make collaborative
         } else if (isDraggingRight) {
-          const maxRightPosition = 816 - leftMargin - 100;
-          const newRightPosition = Math.max(0, Math.min(816, relativeX));
+          const maxRightPosition = PAGE_WIDTH - leftMargin - MIN_SPACE;
+          const newRightPosition = Math.max(0, Math.min(PAGE_WIDTH, relativeX));
           const constrainedRightPosition = Math.min(
             816 - newRightPosition,
             maxRightPosition
