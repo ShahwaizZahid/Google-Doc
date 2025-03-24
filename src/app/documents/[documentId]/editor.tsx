@@ -20,6 +20,7 @@ import { Highlight } from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { FontSizeExtension } from "@/extensions/font-size";
+import { LineHeightExtension } from "@/extensions/line-height";
 
 export default function Editor() {
   const { setEditor } = useEditorStore();
@@ -56,6 +57,9 @@ export default function Editor() {
       FontFamily,
       TextStyle,
       FontSizeExtension,
+      LineHeightExtension.configure({
+        types: ["heading", "paragraph"],
+      }),
       Color,
       TextAlign.configure({
         types: ["heading", "paragraph"],
