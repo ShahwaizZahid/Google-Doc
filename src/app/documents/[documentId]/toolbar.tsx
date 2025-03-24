@@ -25,10 +25,11 @@ import {
   AlignCenterIcon,
   AlignRightIcon,
   AlignJustifyIcon,
-  ListIcon,
   MinusIcon,
   PlusIcon,
   ListCollapseIcon,
+  ListIcon,
+  ListOrderedIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
@@ -570,13 +571,13 @@ function ListButton() {
   const lists = [
     {
       label: "Bullet List",
-      icon: "ListIcon",
+      icon: ListIcon,
       isActive: () => editor?.isActive("bulletList"),
       onClick: () => editor?.chain().focus().toggleBulletList().run(),
     },
     {
       label: "Ordered List",
-      icon: "orderedListIcon",
+      icon: ListOrderedIcon,
       isActive: () => editor?.isActive("orderedList"),
       onClick: () => editor?.chain().focus().toggleOrderedList().run(),
     },
@@ -599,7 +600,7 @@ function ListButton() {
               isActive() && "bg-neutral-200/80"
             )}
           >
-            <Icon />
+            <Icon className="size-4" />
             <span className="text-sm">{label}</span>
           </button>
         ))}
