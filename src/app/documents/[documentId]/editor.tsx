@@ -57,9 +57,7 @@ export default function Editor() {
       FontFamily,
       TextStyle,
       FontSizeExtension,
-      LineHeightExtension.configure({
-        types: ["heading", "paragraph"],
-      }),
+      LineHeightExtension,
       Color,
       TextAlign.configure({
         types: ["heading", "paragraph"],
