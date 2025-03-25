@@ -14,6 +14,12 @@ import {
   PrinterIcon,
   Undo2Icon,
   Redo2Icon,
+  TextIcon,
+  BoldIcon,
+  ItalicIcon,
+  UnderlineIcon,
+  StrikethroughIcon,
+  RemoveFormattingIcon,
 } from "lucide-react";
 import {
   Menubar,
@@ -129,6 +135,41 @@ export default function Navbar() {
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
                   Format
                 </MenubarTrigger>
+                <MenubarContent>
+                  <MenubarSub>
+                    <MenubarSubTrigger>
+                      <TextIcon className="size-4 mr-2" />
+                      Text
+                    </MenubarSubTrigger>
+                    <MenubarSubContent>
+                      <MenubarItem>
+                        <BoldIcon className="size-4 mr-2" />
+                        Bold
+                        <MenubarShortcut>⌘B</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <ItalicIcon className="size-4 mr-2" />
+                        Italic
+                        <MenubarShortcut>⌘I</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <UnderlineIcon className="size-4 mr-2" />
+                        Underline
+                        <MenubarShortcut>⌘U</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <StrikethroughIcon className="size-4 mr-2" />
+                        <span>Strikethrough&nbsp;&nbsp;</span>
+                        <MenubarShortcut>⌘S</MenubarShortcut>
+                      </MenubarItem>
+                    </MenubarSubContent>
+                  </MenubarSub>
+                  <MenubarItem>
+                    <RemoveFormattingIcon className="size-4 mr-2" />
+                    Clear formatting
+                    <MenubarShortcut>⌘I</MenubarShortcut>
+                  </MenubarItem>
+                </MenubarContent>
               </MenubarMenu>
             </Menubar>
           </div>
