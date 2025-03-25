@@ -12,6 +12,8 @@ import {
   FilePenIcon,
   TrashIcon,
   PrinterIcon,
+  Undo2Icon,
+  Redo2Icon,
 } from "lucide-react";
 import {
   Menubar,
@@ -94,6 +96,18 @@ export default function Navbar() {
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
                   Edit
                 </MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem>
+                    <Undo2Icon className="size-4 mr-2" />
+                    Undo
+                    <MenubarShortcut>⌘Z</MenubarShortcut>
+                  </MenubarItem>
+                  <MenubarItem>
+                    <Redo2Icon className="size-4 mr-2" />
+                    Redo
+                    <MenubarShortcut>⌘Y</MenubarShortcut>
+                  </MenubarItem>
+                </MenubarContent>
               </MenubarMenu>
               <MenubarMenu>
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
