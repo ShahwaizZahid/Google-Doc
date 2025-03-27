@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { templates } from "@/constants/templates";
+
 export default function TemplatesGallery() {
   const isCreating = false;
 
