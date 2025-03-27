@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import Navbar from "./navbar";
+import TemplatesGallery from "./templates-gallery";
 
 export default function page() {
   return (
@@ -9,11 +10,7 @@ export default function page() {
         <Navbar />
       </div>
       <div className="mt-16">
-        Click
-        <Link href={"/documents/123"}>
-          <span className="text-blue-500 underline">Dab manu</span>
-        </Link>{" "}
-        go to document id
+        <TemplatesGallery />
       </div>
     </div>
   );
