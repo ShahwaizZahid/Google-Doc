@@ -11,7 +11,7 @@ export default function page() {
       <div className="mt-16">
         Click
         <Link href={"/documents/123"}>
-          <span className="text-blue-500 underline">here</span>
+          <span className="text-blue-500 underline">Dab manu</span>
         </Link>{" "}
         go to document id
       </div>

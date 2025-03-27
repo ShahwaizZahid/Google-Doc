@@ -275,27 +275,27 @@ function HeadingLevelButton() {
     },
     {
       label: "Heading 1",
-      value: 0,
+      value: 1,
       fontSize: "32px",
     },
     {
       label: "Heading 2",
-      value: 0,
+      value: 2,
       fontSize: "24px",
     },
     {
       label: "Heading 3",
-      value: 0,
+      value: 3,
       fontSize: "20px",
     },
     {
       label: "Heading 4",
-      value: 0,
+      value: 4,
       fontSize: "18px",
     },
     {
       label: "Heading 5",
-      value: 0,
+      value: 5,
       fontSize: "16px",
     },
   ];
