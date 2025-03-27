@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Carousel,
@@ -9,9 +9,32 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { templates } from "@/constants/templates";
+import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 export default function TemplatesGallery() {
-  const isCreating = false;
+  const router = useRouter();
+  const create = useMutation(api.documents.create);
+
+  const [isCreating, setIsCreating] = useState(false);
+
+  const onTemplateClick = async (title: string, initialContent: string) => {
+    setIsCreating(true); // Disable the button
+    try {
+      const documentId = await create({ title, initialContent });
+      if (documentId) {
+        console.log(documentId);
+        await router.push(`/documents/${documentId}`);
+      } else {
+        console.error("Failed to create document: documentId is null");
+      }
+    } catch (error) {
+      console.error("Error creating document:", error);
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   return (
     <div className="bg-[#f1f3f4]">
@@ -33,14 +56,15 @@ export default function TemplatesGallery() {
                   >
                     <button
                       disabled={isCreating}
-                      onClick={() => {}}
+                      // TODO: Add proper initial content
+                      onClick={() => onTemplateClick(template.label, "")}
                       style={{
                         backgroundImage: `url(${template.imageUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
                       }}
-                      className="size-full hover:border-blue-500 rounded-sm border hover:bg-blue-50 transition flex flex-col justify-center gap-y-4 bg-white"
+                      className="size-full hover:border-blue-500 rounded-sm  border hover:bg-blue-50  transition flex flex-col justify-center gap-y-4 bg-white"
                     />
                     <p className="text-sm font-medium truncate">
                       {template.label}
