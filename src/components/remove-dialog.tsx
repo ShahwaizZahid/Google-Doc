@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +12,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Id } from "../../convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 type RemoveDialogProps = {
   documentId: Id<"documents">;
@@ -22,6 +24,10 @@ export default function RemoveDialog({
   documentId,
   children, // Corrected the prop name
 }: RemoveDialogProps) {
+  const remove = useMutation(api.documents.removeById);
+
+  const [isRemoving, setIsRemoving] = useState(false);
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -37,7 +43,18 @@ export default function RemoveDialog({
           <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction>Delete</AlertDialogAction>
+          <AlertDialogAction
+            disabled={isRemoving}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsRemoving(true);
+              remove({ id: documentId }).finally(() => {
+                setIsRemoving(false);
+              });
+            }}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
