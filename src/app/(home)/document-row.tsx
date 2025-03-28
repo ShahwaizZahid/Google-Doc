@@ -8,13 +8,16 @@ type DocumentRowProps = {
 };
 import { format } from "date-fns";
 import DocumentMenu from "./document-menu";
+import { useRouter } from "next/navigation";
 
 export default function DocumentRow({ document }: DocumentRowProps) {
-  const onNewtabClick = (id: string) => {
-    window.open(`/documents/${id}`, "_blank");
-  };
+  const router = useRouter();
+
   return (
-    <TableRow className="cursor-pointer">
+    <TableRow
+      onClick={() => router.push(`/documents/${document._id}`)}
+      className="cursor-pointer"
+    >
       <TableCell className="w-[50px]">
         <SiGoogledocs className="size-6 fill-blue-500" />
       </TableCell>
@@ -34,7 +37,7 @@ export default function DocumentRow({ document }: DocumentRowProps) {
         <DocumentMenu
           documentId={document._id}
           title={document.title}
-          onNewTab={onNewtabClick}
+          onNewTab={() => window.open(`/documents/${document._id}`, "_blank")}
         />
       </TableCell>
     </TableRow>
