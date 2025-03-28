@@ -30,11 +30,16 @@ export default function DocumentMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full"
+          onClick={(e) => e.stopPropagation()} //
+        >
           <MoreVertical className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
         <RenameDialog documentId={documentId} initialTitle={title}>
           <DropdownMenuItem
             onSelect={(e) => e.preventDefault()}

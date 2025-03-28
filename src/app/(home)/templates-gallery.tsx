@@ -20,11 +20,15 @@ export default function TemplatesGallery() {
   const [isCreating, setIsCreating] = useState(false);
 
   const onTemplateClick = async (title: string, initialContent: string) => {
+    if (isCreating) return; // Prevent multiple clicks
+
     setIsCreating(true); // Disable the button
     try {
-      const documentId = await create({ title, initialContent });
+      const documentId = await create({ title, initialContent }); // Wait for the document to be created
       if (documentId) {
         console.log(documentId);
+
+        // Wait for navigation to complete
         await router.push(`/documents/${documentId}`);
       } else {
         console.error("Failed to create document: documentId is null");
@@ -32,7 +36,7 @@ export default function TemplatesGallery() {
     } catch (error) {
       console.error("Error creating document:", error);
     } finally {
-      setIsCreating(false);
+      setIsCreating(false); // Enable the button after navigation
     }
   };
 
@@ -56,7 +60,6 @@ export default function TemplatesGallery() {
                   >
                     <button
                       disabled={isCreating}
-                      // TODO: Add proper initial content
                       onClick={() => onTemplateClick(template.label, "")}
                       style={{
                         backgroundImage: `url(${template.imageUrl})`,
