@@ -56,7 +56,7 @@ export const removeById = mutation({
   },
 });
 
-export const updateByIdd = mutation({
+export const updateById = mutation({
   args: {
     id: v.id("documents"),
     title: v.string(),
