@@ -12,7 +12,7 @@ import { templates } from "@/constants/templates";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-
+import { toast } from "sonner";
 export default function TemplatesGallery() {
   const router = useRouter();
   const create = useMutation(api.documents.create);
@@ -20,7 +20,7 @@ export default function TemplatesGallery() {
   const [isCreating, setIsCreating] = useState(false);
 
   const onTemplateClick = async (title: string, initialContent: string) => {
-    if (isCreating) return; // Prevent multiple clicks
+    if (isCreating) return;
 
     setIsCreating(true); // Disable the button
     try {
@@ -30,10 +30,12 @@ export default function TemplatesGallery() {
 
         // Wait for navigation to complete
         await router.push(`/documents/${documentId}`);
+        toast.success("Document create successfully");
       } else {
         console.error("Failed to create document: documentId is null");
       }
     } catch (error) {
+      toast.error("Something went wrong");
       console.error("Error creating document:", error);
     } finally {
       setIsCreating(false); // Enable the button after navigation
