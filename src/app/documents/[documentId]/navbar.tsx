@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { BsFilePdf } from "react-icons/bs";
@@ -263,6 +264,15 @@ export default function Navbar() {
             </Menubar>
           </div>
         </div>
+      </div>
+      <div className="flex items-center gap-3 pl-6">
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl="/"
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl="/"
+          afterSelectPersonalUrl="/"
+        />
+        <UserButton />
       </div>
     </nav>
   );
