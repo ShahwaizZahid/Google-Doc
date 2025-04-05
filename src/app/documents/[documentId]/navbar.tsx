@@ -37,6 +37,7 @@ import {
 import React from "react";
 import DocumentInput from "./document-input";
 import { useEditorStore } from "@/store/use-editor-store";
+import { Avatars } from "./avatars";
 
 export default function Navbar() {
   const { editor } = useEditorStore();
@@ -266,6 +267,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className="flex items-center gap-3 pl-6">
+        <Avatars />
         <OrganizationSwitcher
           afterCreateOrganizationUrl="/"
           afterLeaveOrganizationUrl="/"
