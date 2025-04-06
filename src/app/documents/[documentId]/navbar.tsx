@@ -40,13 +40,33 @@ import DocumentInput from "./document-input";
 import { useEditorStore } from "@/store/use-editor-store";
 import { Avatars } from "./avatars";
 import { Doc } from "../../../../convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { useRouter } from "next/navigation";
+import { api } from "../../../../convex/_generated/api";
+import { toast } from "sonner";
 
 type Navbarprops = {
   data: Doc<"documents">;
 };
 
 export default function Navbar({ data }: Navbarprops) {
+  const router = useRouter();
   const { editor } = useEditorStore();
+  const mutation = useMutation(api.documents.create);
+
+  const onNewDocument = () => {
+    mutation({
+      title: "Untitled document",
+      initialContent: "",
+    })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+      .then((id) => {
+        toast.success("Document created successfully");
+        router.push(`/documents/${id}`);
+      });
+  };
 
   const insertTables = ({ rows, cols }: { rows: number; cols: number }) => {
     editor
@@ -133,7 +153,7 @@ export default function Navbar({ data }: Navbarprops) {
                       </MenubarItem>
                     </MenubarSubContent>
                   </MenubarSub>
-                  <MenubarItem>
+                  <MenubarItem onClick={onNewDocument}>
                     <FilePlusIcon className="size-4 mr-2" />
                     New Document
                   </MenubarItem>
