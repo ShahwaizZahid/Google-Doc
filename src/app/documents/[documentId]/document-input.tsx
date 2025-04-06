@@ -1,17 +1,21 @@
 import React, { useState, useRef } from "react";
-import { BsCloudCheck } from "react-icons/bs";
+import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useDebounce } from "@/hooks/use-debounce";
 import { toast } from "sonner";
+import { useStatus } from "@liveblocks/react";
+import { LoaderIcon } from "lucide-react";
 
 type DocumentInputProps = {
   title: string;
   id: Id<"documents">;
 };
 export default function DocumentInput({ title, id }: DocumentInputProps) {
+  const status = useStatus();
+
   const [value, setValue] = useState(title);
   const [isError, setIsError] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -53,6 +57,11 @@ export default function DocumentInput({ title, id }: DocumentInputProps) {
       .catch(() => toast.error("Something went wrong"))
       .finally(() => setIsPending(false));
   };
+
+  const showLoader =
+    isPending || status === "connecting" || status === "reconnecting";
+
+  const showError = status === "disconnected";
   return (
     <div className="flex items-center gap-2">
       {isEditing ? (
@@ -84,7 +93,11 @@ export default function DocumentInput({ title, id }: DocumentInputProps) {
           {title}
         </span>
       )}
-      <BsCloudCheck />
+      {showError && <BsCloudSlash className="size-4" />}
+      {!showError && !showLoader && <BsCloudCheck />}
+      {showLoader && (
+        <LoaderIcon className="size-4 animate-spin text-muted-foreground" />
+      )}
     </div>
   );
 }
