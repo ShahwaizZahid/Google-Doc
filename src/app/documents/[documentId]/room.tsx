@@ -8,8 +8,9 @@ import {
 } from "@liveblocks/react/suspense";
 import { useParams } from "next/navigation";
 import FullscreenLoader from "@/components/fullscreen-loader";
-import getUsers from "./action";
+import { getUsers, getDocuments } from "./action";
 import { toast } from "sonner";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 type User = {
   id: string;
@@ -36,7 +37,7 @@ export function Room({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   return (
     <LiveblocksProvider
@@ -68,7 +69,13 @@ export function Room({ children }: { children: ReactNode }) {
 
         return filterUsers.map((user) => user.id);
       }}
-      resolveRoomsInfo={() => []}
+      resolveRoomsInfo={async ({ roomIds }) => {
+        const documents = await getDocuments(roomIds as Id<"documents">[]);
+        return documents.map((document) => ({
+          id: document.id,
+          name: document.name,
+        }));
+      }}
     >
       <RoomProvider id={params.documentId as string}>
         <ClientSideSuspense
