@@ -4,6 +4,7 @@ import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { BsFilePdf } from "react-icons/bs";
+import { Inbox } from "./inbox";
 import {
   FileIcon,
   FileJsonIcon,
@@ -268,6 +269,7 @@ export default function Navbar() {
       </div>
       <div className="flex items-center gap-3 pl-6">
         <Avatars />
+        <Inbox />
         <OrganizationSwitcher
           afterCreateOrganizationUrl="/"
           afterLeaveOrganizationUrl="/"
