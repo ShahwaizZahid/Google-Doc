@@ -26,14 +26,17 @@ import { useStorage } from "@liveblocks/react";
 
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from "./threads";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 type EditorProps = {
   initialContent?: string | undefined;
 };
 
 export default function Editor({ initialContent }: EditorProps) {
-  const leftMargin = useStorage((root) => root.leftMargin);
-  const rightMargin = useStorage((root) => root.rightMargin);
+  const leftMargin =
+    useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+  const rightMargin =
+    useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
 
   const liveblocks = useLiveblocksExtension({
     initialContent,
@@ -57,7 +60,7 @@ export default function Editor({ initialContent }: EditorProps) {
     onContentError: ({ editor }) => setEditor(editor),
     editorProps: {
       attributes: {
-        style: `padding-left:${leftMargin ?? 56}px; padding-right:${rightMargin ?? 56}px;`,
+        style: `padding-left:${leftMargin}px; padding-right:${rightMargin}px;`,
         class:
           "focus:outline-none print:border-0 pbg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text",
       },
