@@ -1,11 +1,12 @@
 "use client";
 
-import { Preloaded, usePreloadedQuery } from "convex/react";
 import Editor from "./editor";
 import Navbar from "./navbar";
 import { Room } from "./room";
 import Toolbar from "./toolbar";
+
 import { api } from "../../../../convex/_generated/api";
+import { Preloaded, usePreloadedQuery } from "convex/react";
 
 type DocumentProps = {
   preloadedDocument: Preloaded<typeof api.documents.getById>;

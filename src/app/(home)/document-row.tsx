@@ -1,14 +1,19 @@
 import React from "react";
-import { TableRow, TableCell } from "@/components/ui/table";
-import { Doc } from "../../../convex/_generated/dataModel";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+
+import DocumentMenu from "./document-menu";
+
 import { SiGoogledocs } from "react-icons/si";
 import { Building2Icon, CircleUserIcon } from "lucide-react";
+
+import { TableRow, TableCell } from "@/components/ui/table";
+
+import { Doc } from "../../../convex/_generated/dataModel";
+
 type DocumentRowProps = {
   document: Doc<"documents">;
 };
-import { format } from "date-fns";
-import DocumentMenu from "./document-menu";
-import { useRouter } from "next/navigation";
 
 export default function DocumentRow({ document }: DocumentRowProps) {
   const router = useRouter();

@@ -1,9 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { AlertTriangleIcon } from "lucide-react";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+
+import { AlertTriangleIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export default function ErrorPage({
   error,

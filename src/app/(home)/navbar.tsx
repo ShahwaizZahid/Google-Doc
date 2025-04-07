@@ -1,8 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+
 import SearchInput from "./search-input";
+
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
+
 export default function Navbar() {
   return (
     <nav className=" flex items-center justify-between h-full w-full">

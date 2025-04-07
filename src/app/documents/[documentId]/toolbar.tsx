@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { type ColorResult, SketchPicker } from "react-color";
-import { type Level } from "@tiptap/extension-heading";
+
 import {
   LucideIcon,
   Undo2Icon,
@@ -31,8 +30,13 @@ import {
   ListIcon,
   ListOrderedIcon,
 } from "lucide-react";
+
+import { type ColorResult, SketchPicker } from "react-color";
+import { type Level } from "@tiptap/extension-heading";
+
 import { cn } from "@/lib/utils";
-import { useEditorStore } from "@/store/use-editor-store";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
@@ -41,15 +45,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
+import { useEditorStore } from "@/store/use-editor-store";
 
 type ToolbarButtonProps = {
   onClick: () => void;

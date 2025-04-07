@@ -1,12 +1,13 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+
 import {
   ExternalLinkIcon,
   FilePenIcon,
   MoreVertical,
   TrashIcon,
 } from "lucide-react";
-import { Id } from "../../../convex/_generated/dataModel";
+
+import { Button } from "@/components/ui/button";
 import RemoveDialog from "@/components/remove-dialog";
 import RenameDialog from "@/components/rename-dialog";
 import {
@@ -15,6 +16,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+import { Id } from "../../../convex/_generated/dataModel";
 
 type DocumentMenuProps = {
   documentId: Id<"documents">;

@@ -1,8 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { SearchIcon, XIcon } from "lucide-react";
 import React, { useRef, useState } from "react";
+
+import { SearchIcon, XIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { useSearchParams } from "@/hooks/use-search-params";
 
 export default function SearchInput() {

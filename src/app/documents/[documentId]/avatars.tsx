@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
+
 import { Separator } from "@/components/ui/separator";
-import { useOthers, useSelf } from "@liveblocks/react/suspense";
+
 import { ClientSideSuspense } from "@liveblocks/react";
+import { useOthers, useSelf } from "@liveblocks/react/suspense";
 
 const AVATAR_SIZE = 36;
 

@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
+
 import { FaCaretDown } from "react-icons/fa";
-import { useStorage, useMutation } from "@liveblocks/react";
-import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+
 import { PAGE_WIDTH } from "@/constants/page-width";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+
+import { useStorage, useMutation } from "@liveblocks/react";
 
 const marker = Array.from({ length: 83 }, (_, i) => i);
 

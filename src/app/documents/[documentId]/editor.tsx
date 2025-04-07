@@ -1,34 +1,34 @@
 "use client";
 
 import React from "react";
+import Ruler from "./ruler";
+import { Threads } from "./threads";
+import { PAGE_WIDTH } from "@/constants/page-width";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+
+import Link from "@tiptap/extension-link";
+import Table from "@tiptap/extension-table";
+import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
+import { Color } from "@tiptap/extension-color";
+import TableRow from "@tiptap/extension-table-row";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
-import Table from "@tiptap/extension-table";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import TableRow from "@tiptap/extension-table-row";
-import Image from "@tiptap/extension-image";
-import ImageResize from "tiptap-extension-resize-image";
-import { useEditorStore } from "@/store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
-import FontFamily from "@tiptap/extension-font-family";
-import TextStyle from "@tiptap/extension-text-style";
-import { Color } from "@tiptap/extension-color";
-import { Highlight } from "@tiptap/extension-highlight";
-import Link from "@tiptap/extension-link";
+import TableCell from "@tiptap/extension-table-cell";
 import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import FontFamily from "@tiptap/extension-font-family";
+import { Highlight } from "@tiptap/extension-highlight";
+import ImageResize from "tiptap-extension-resize-image";
+import TableHeader from "@tiptap/extension-table-header";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
-import Ruler from "./ruler";
-import { Threads } from "./threads";
+
 import { useStorage } from "@liveblocks/react";
-
+import { useEditorStore } from "@/store/use-editor-store";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-
-import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
-import { PAGE_WIDTH } from "@/constants/page-width";
 
 type EditorProps = {
   initialContent?: string | undefined;

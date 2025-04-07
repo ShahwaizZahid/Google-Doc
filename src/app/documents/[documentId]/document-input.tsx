@@ -1,18 +1,22 @@
 import React, { useState, useRef } from "react";
+
+import { LoaderIcon } from "lucide-react";
 import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 
-import { Id } from "../../../../convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import { useDebounce } from "@/hooks/use-debounce";
+
 import { toast } from "sonner";
+
+import { useMutation } from "convex/react";
 import { useStatus } from "@liveblocks/react";
-import { LoaderIcon } from "lucide-react";
+import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 type DocumentInputProps = {
   title: string;
   id: Id<"documents">;
 };
+
 export default function DocumentInput({ title, id }: DocumentInputProps) {
   const status = useStatus();
 

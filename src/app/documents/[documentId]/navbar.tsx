@@ -1,10 +1,18 @@
 "use client";
 
-import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import { BsFilePdf } from "react-icons/bs";
+
 import { Inbox } from "./inbox";
+import { Avatars } from "./avatars";
+import DocumentInput from "./document-input";
+
+import RemoveDialog from "@/components/remove-dialog";
+import RenameDialog from "@/components/rename-dialog";
 import {
   FileIcon,
   FileJsonIcon,
@@ -35,17 +43,14 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import React from "react";
-import DocumentInput from "./document-input";
-import { useEditorStore } from "@/store/use-editor-store";
-import { Avatars } from "./avatars";
-import { Doc } from "../../../../convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { useRouter } from "next/navigation";
-import { api } from "../../../../convex/_generated/api";
+
 import { toast } from "sonner";
-import RemoveDialog from "@/components/remove-dialog";
-import RenameDialog from "@/components/rename-dialog";
+
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { useEditorStore } from "@/store/use-editor-store";
+import { Doc } from "../../../../convex/_generated/dataModel";
+import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 
 type Navbarprops = {
   data: Doc<"documents">;

@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { cn } from "@/lib/utils";
+import { templates } from "@/constants/templates";
 import {
   Carousel,
   CarouselContent,
@@ -8,11 +11,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { templates } from "@/constants/templates";
-import { useRouter } from "next/navigation";
+
+import { toast } from "sonner";
+
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { toast } from "sonner";
+
 export default function TemplatesGallery() {
   const router = useRouter();
   const create = useMutation(api.documents.create);
