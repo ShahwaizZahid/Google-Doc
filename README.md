@@ -4,7 +4,7 @@ This project is a real-time Google Docs clone built with **Next.js**, **React**,
 
 ## Live Demo
 
-You can check out the live version of the project here: [**Live Demo on Vercel**](your-vercel-deployment-link)
+You can check out the live version of the project here: [**Live Demo on Vercel**](https://google-doc-rosy.vercel.app/)
 
 ## Features
 
@@ -31,4 +31,16 @@ Clone this repository and install the dependencies:
 git clone https://github.com/ShahwaizZahid/Google-Doc
 cd google-docs-clone
 npm install
+```
+
+### Environment Variables
+
+You'll need to configure the following environment variables for authentication and backend services:
+
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
+NEXT_PUBLIC_CONVEX_URL= <next_public_convex_url>
+CONVEX_DEPLOYMENT=<convex_deployment>
+CLERK_SECRET_KEY=<clerk_secret_key>
+LIVEBLOCKS_SECERT_KEY=<liveblocks_secert_key>
 ```
