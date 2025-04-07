@@ -45,6 +45,7 @@ import { useRouter } from "next/navigation";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import RemoveDialog from "@/components/remove-dialog";
+import RenameDialog from "@/components/rename-dialog";
 
 type Navbarprops = {
   data: Doc<"documents">;
@@ -159,10 +160,12 @@ export default function Navbar({ data }: Navbarprops) {
                     New Document
                   </MenubarItem>
                   <MenubarSeparator></MenubarSeparator>
-                  <MenubarItem>
-                    <FilePenIcon className="size-4 mr-2" />
-                    Rename
-                  </MenubarItem>
+                  <RenameDialog documentId={data._id} initialTitle={data.title}>
+                    <MenubarItem>
+                      <FilePenIcon className="size-4 mr-2" />
+                      Rename
+                    </MenubarItem>
+                  </RenameDialog>
                   <RemoveDialog documentId={data._id}>
                     <MenubarItem
                       onClick={(e) => e.stopPropagation()}
