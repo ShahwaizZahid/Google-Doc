@@ -38,7 +38,7 @@ export default function TemplatesGallery() {
       toast.error("Something went wrong");
       console.error("Error creating document:", error);
     } finally {
-      setIsCreating(false); // Enable the button after navigation
+      setIsCreating(false);
     }
   };
 
@@ -62,7 +62,9 @@ export default function TemplatesGallery() {
                   >
                     <button
                       disabled={isCreating}
-                      onClick={() => onTemplateClick(template.label, "")}
+                      onClick={() =>
+                        onTemplateClick(template.label, template.initialContent)
+                      }
                       style={{
                         backgroundImage: `url(${template.imageUrl})`,
                         backgroundSize: "cover",
