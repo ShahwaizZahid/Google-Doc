@@ -166,6 +166,8 @@ export default function Navbar({ data }: Navbarprops) {
                       Rename
                     </MenubarItem>
                   </RenameDialog>
+
+                  {/* TODO:    handle  the navigation  after deleting document*/}
                   <RemoveDialog documentId={data._id}>
                     <MenubarItem
                       onClick={(e) => e.stopPropagation()}
