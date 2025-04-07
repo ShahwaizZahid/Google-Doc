@@ -4,7 +4,7 @@ This project is a real-time Google Docs clone built with **Next.js**, **React**,
 
 ## Live Demo
 
-You can check out the live version of the project here: [**Live Demo on Vercel**](https://google-doc-rosy.vercel.app/)
+You can check out the live version of the project here: [**google-docs**](https://google-doc-rosy.vercel.app/)
 
 ## Features
 
