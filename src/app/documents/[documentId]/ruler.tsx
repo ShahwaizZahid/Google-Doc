@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { useStorage, useMutation } from "@liveblocks/react";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+import { PAGE_WIDTH } from "@/constants/page-width";
 
 const marker = Array.from({ length: 83 }, (_, i) => i);
 
@@ -30,7 +31,6 @@ export default function Ruler() {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const PAGE_WIDTH = 816;
     const MIN_SPACE = 100;
     if ((isDraggingLeft || isDraggingRight) && rulerRef.current) {
       const container = rulerRef.current.querySelector("#ruler-container");
@@ -47,7 +47,7 @@ export default function Ruler() {
           const maxRightPosition = PAGE_WIDTH - leftMargin - MIN_SPACE;
           const newRightPosition = Math.max(0, Math.min(PAGE_WIDTH, relativeX));
           const constrainedRightPosition = Math.min(
-            816 - newRightPosition,
+            PAGE_WIDTH - newRightPosition,
             maxRightPosition
           );
           setRightMargin(constrainedRightPosition);
@@ -76,7 +76,7 @@ export default function Ruler() {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="h-6 w-[816px] mx-auto border-b border-gray-300 flex items-end select-none print:hidden"
+      className={`h-6 w-[${PAGE_WIDTH}px] mx-auto border-b border-gray-300 flex items-end select-none print:hidden`}
     >
       <div id="ruler-container" className="w-full h-full relative">
         <Marker
@@ -94,7 +94,7 @@ export default function Ruler() {
           onDoubleClick={handleRightDoubleClick}
         />
         <div className="absolute inset-0 h-full bottom-0 ">
-          <div className=" relative w-[816px] h-full">
+          <div className={`relative w-[${PAGE_WIDTH}px] h-full`}>
             {marker.map((marker) => {
               const position = (marker * 816) / 82;
               return (

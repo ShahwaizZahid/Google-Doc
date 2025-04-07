@@ -153,14 +153,14 @@ export default function Toolbar() {
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
-      <TextColorButton /> {/* TODO: Text color */}
-      <HighlightColorButton /> {/* TODO: Highlight color */}
+      <TextColorButton /> {/*  Text color */}
+      <HighlightColorButton /> {/*  Highlight color */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      <LinkButton /> {/* TODO: Link */}
-      <ImageButton /> {/* TODO: Image */}
-      <AlignButton /> {/* TODO: Align */}
-      <LineHeightButton /> {/* TODO: Line height */}
-      <ListButton /> {/* TODO: List */}
+      <LinkButton /> {/*  Link */}
+      <ImageButton /> {/* Image */}
+      <AlignButton /> {/*Align */}
+      <LineHeightButton /> {/*  Line height */}
+      <ListButton /> {/*  List */}
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}

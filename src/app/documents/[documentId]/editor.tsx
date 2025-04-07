@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
@@ -19,14 +18,17 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
+import { useEditor, EditorContent } from "@tiptap/react";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
 import Ruler from "./ruler";
+import { Threads } from "./threads";
 import { useStorage } from "@liveblocks/react";
 
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-import { Threads } from "./threads";
+
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+import { PAGE_WIDTH } from "@/constants/page-width";
 
 type EditorProps = {
   initialContent?: string | undefined;
@@ -103,7 +105,9 @@ export default function Editor({ initialContent }: EditorProps) {
   return (
     <div className="size-full overflow-x-auto   bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
       <Ruler />
-      <div className="min-w-max mx-auto flex justify-center w-[816px]  py-y print:py-0 print:w-full print:min-w-0 mt-4">
+      <div
+        className={`min-w-max mx-auto flex justify-center w-[${PAGE_WIDTH}px]  py-y print:py-0 print:w-full print:min-w-0 mt-4`}
+      >
         <EditorContent editor={editor} />
         <Threads editor={editor} />
       </div>
