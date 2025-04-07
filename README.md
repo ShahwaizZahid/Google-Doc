@@ -47,10 +47,12 @@ LIVEBLOCKS_SECERT_KEY= <liveblocks_secert_key>
 
 ## Usage
 
-To run the application locally:
+1. To run the application locally:
+2. Start the Convex server:
 
 ```bash
 npm run dev
+npx convex dev
 ```
 
 Visit http://localhost:3000 in your browser to view the app.
