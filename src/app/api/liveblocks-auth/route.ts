@@ -39,7 +39,7 @@ export async function POST(req: Request) {
   const name =
     user.fullName ?? user.primaryEmailAddress?.emailAddress ?? "Anonymous";
 
-  // Code for each user get specfic color base onnname
+  // Code for each user get specfic color base on nname
   const nameToNumber = name
     .split("")
     .reduce((acc, char) => acc + char.charCodeAt(0), 0);
