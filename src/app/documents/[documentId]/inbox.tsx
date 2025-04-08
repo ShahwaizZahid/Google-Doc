@@ -15,6 +15,7 @@ import {
 import { ClientSideSuspense } from "@liveblocks/react";
 import { InboxNotification, InboxNotificationList } from "@liveblocks/react-ui";
 import { useInboxNotifications } from "@liveblocks/react/suspense";
+import Tooltip from "@/components/tooltip";
 
 export function Inbox() {
   return (
@@ -40,7 +41,9 @@ const InboxMenu = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={"ghost"} className="relative" size="icon">
-            <BellIcon className="size-5" />
+            <Tooltip label="notification">
+              <BellIcon className="size-5" />
+            </Tooltip>
             {inboxNotifications?.length > 0 && (
               <span className="absolute -top-1 -right-1 size-4 rounded-full bg-sky-500 text-xs text-white flex items-center justify-center">
                 {inboxNotifications.length}
