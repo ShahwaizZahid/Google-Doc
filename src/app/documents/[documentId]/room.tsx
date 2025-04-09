@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
+import { User } from "@/constants/types";
 import { getUsers, getDocuments } from "./action";
 import FullscreenLoader from "@/components/fullscreen-loader";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
@@ -15,13 +16,6 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { Id } from "../../../../convex/_generated/dataModel";
-
-type User = {
-  id: string;
-  name: string;
-  avatar: string;
-  color: string;
-};
 
 export function Room({ children }: { children: ReactNode }) {
   const params = useParams();

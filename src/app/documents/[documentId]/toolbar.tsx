@@ -53,12 +53,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useEditorStore } from "@/store/use-editor-store";
-
-type ToolbarButtonProps = {
-  onClick: () => void;
-  icon: LucideIcon;
-  isActive?: boolean;
-};
+import { ToolbarButtonProps } from "@/constants/types";
 
 export default function Toolbar() {
   const { editor } = useEditorStore();

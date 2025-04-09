@@ -4,6 +4,7 @@ import React from "react";
 import Ruler from "./ruler";
 import { Threads } from "./threads";
 import { PAGE_WIDTH } from "@/constants/page-width";
+import { EditorProps } from "@/constants/types";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 import Link from "@tiptap/extension-link";
@@ -29,10 +30,6 @@ import { LineHeightExtension } from "@/extensions/line-height";
 import { useStorage } from "@liveblocks/react";
 import { useEditorStore } from "@/store/use-editor-store";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-
-type EditorProps = {
-  initialContent?: string | undefined;
-};
 
 export default function Editor({ initialContent }: EditorProps) {
   const leftMargin =

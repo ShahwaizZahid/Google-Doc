@@ -3,11 +3,8 @@ import { Document } from "./document";
 import { auth } from "@clerk/nextjs/server";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
 
-type DocumentIdPageProps = {
-  params: Promise<{ documentId: Id<"documents"> }>;
-};
+import { DocumentIdPageProps } from "@/constants/types";
 
 const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
   const { documentId } = await params;

@@ -10,6 +10,7 @@ import { BsFilePdf } from "react-icons/bs";
 import { Inbox } from "./inbox";
 import { Avatars } from "./avatars";
 import DocumentInput from "./document-input";
+import { Navbarprops } from "@/constants/types";
 
 import RemoveDialog from "@/components/remove-dialog";
 import RenameDialog from "@/components/rename-dialog";
@@ -49,12 +50,7 @@ import { toast } from "sonner";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useEditorStore } from "@/store/use-editor-store";
-import { Doc } from "../../../../convex/_generated/dataModel";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
-
-type Navbarprops = {
-  data: Doc<"documents">;
-};
 
 export default function Navbar({ data }: Navbarprops) {
   const router = useRouter();

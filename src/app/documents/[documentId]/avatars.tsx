@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 
+import { AvatarProps } from "@/constants/types";
 import { Separator } from "@/components/ui/separator";
 
 import { ClientSideSuspense } from "@liveblocks/react";
@@ -44,11 +45,6 @@ const AvatarStack = () => {
       <Separator orientation="vertical" className="h-6" />
     </>
   );
-};
-
-type AvatarProps = {
-  src: string;
-  name: string;
 };
 
 export function Avatar({ src, name }: AvatarProps) {

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 
 import { FaCaretDown } from "react-icons/fa";
 
+import { MarkerProps } from "@/constants/types";
 import { PAGE_WIDTH } from "@/constants/page-width";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
@@ -131,14 +132,6 @@ export default function Ruler() {
     </div>
   );
 }
-
-type MarkerProps = {
-  position: number;
-  isLeft: boolean;
-  isDragging: boolean;
-  onMouseDown: () => void;
-  onDoubleClick: () => void;
-};
 
 const Marker = ({
   position,

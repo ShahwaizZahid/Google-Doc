@@ -5,12 +5,9 @@ import Navbar from "./navbar";
 import { Room } from "./room";
 import Toolbar from "./toolbar";
 
-import { api } from "../../../../convex/_generated/api";
-import { Preloaded, usePreloadedQuery } from "convex/react";
+import { DocumentProps } from "@/constants/types";
 
-type DocumentProps = {
-  preloadedDocument: Preloaded<typeof api.documents.getById>;
-};
+import { usePreloadedQuery } from "convex/react";
 
 export function Document({ preloadedDocument }: DocumentProps) {
   const document = usePreloadedQuery(preloadedDocument);
