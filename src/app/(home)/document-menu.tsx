@@ -7,6 +7,8 @@ import {
   TrashIcon,
 } from "lucide-react";
 
+import { DocumentMenuProps } from "@/constants/types";
+
 import { Button } from "@/components/ui/button";
 import RemoveDialog from "@/components/remove-dialog";
 import RenameDialog from "@/components/rename-dialog";
@@ -16,14 +18,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { Id } from "../../../convex/_generated/dataModel";
-
-type DocumentMenuProps = {
-  documentId: Id<"documents">;
-  title: string;
-  onNewTab: (id: Id<"documents">) => void;
-};
 
 export default function DocumentMenu({
   documentId,

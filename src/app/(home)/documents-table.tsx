@@ -3,6 +3,8 @@ import React from "react";
 import { LoaderIcon } from "lucide-react";
 
 import DocumentRow from "./document-row";
+import { DocumentsTablesProps } from "@/constants/types";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -12,15 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { PaginationStatus } from "convex/react";
-import { Doc } from "../../../convex/_generated/dataModel";
-
-type DocumentsTablesProps = {
-  documents: Doc<"documents">[] | undefined;
-  loadMore: (numItem: number) => void;
-  status: PaginationStatus;
-};
 
 export default function DocumentsTables({
   documents,

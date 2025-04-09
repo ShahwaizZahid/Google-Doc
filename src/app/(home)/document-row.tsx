@@ -3,17 +3,12 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import DocumentMenu from "./document-menu";
+import { DocumentRowProps } from "@/constants/types";
 
 import { SiGoogledocs } from "react-icons/si";
 import { Building2Icon, CircleUserIcon } from "lucide-react";
 
 import { TableRow, TableCell } from "@/components/ui/table";
-
-import { Doc } from "../../../convex/_generated/dataModel";
-
-type DocumentRowProps = {
-  document: Doc<"documents">;
-};
 
 export default function DocumentRow({ document }: DocumentRowProps) {
   const router = useRouter();
