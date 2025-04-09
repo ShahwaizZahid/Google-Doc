@@ -58,9 +58,7 @@ const InboxMenu = () => {
                 <InboxNotification
                   key={inboxNotification.id}
                   inboxNotification={inboxNotification}
-                  onClick={() => {
-                    console.log(inboxNotification);
-                  }}
+                  onClick={() => {}}
                 />
               ))}
             </InboxNotificationList>
