@@ -5,6 +5,7 @@ import { preloadQuery } from "convex/nextjs";
 import { api } from "../../../../convex/_generated/api";
 
 import { DocumentIdPageProps } from "@/constants/types";
+import { redirect } from "next/navigation";
 
 const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
   const { documentId } = await params;
@@ -15,13 +16,23 @@ const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
     throw new Error("Unauthorized");
   }
 
-  const preloadedDocument = await preloadQuery(
-    api.documents.getById,
-    {
-      id: documentId,
-    },
-    { token }
-  );
+  let preloadedDocument;
+
+  try {
+    preloadedDocument = await preloadQuery(
+      api.documents.getById,
+      { id: documentId },
+      { token }
+    );
+  } catch (error) {
+    console.error("Failed to preload document:", error);
+   redirect("/")
+  }
+
+  if (!preloadedDocument) {
+    console.log("here")
+    return redirect("/")
+  }
 
   return <Document preloadedDocument={preloadedDocument} />;
 };
