@@ -31,9 +31,10 @@ export default function RemoveDialog({
   const remove = useMutation(api.documents.removeById);
 
   const [isRemoving, setIsRemoving] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent onClick={(e) => e.stopPropagation()}>
         <AlertDialogHeader>
@@ -53,15 +54,12 @@ export default function RemoveDialog({
               e.stopPropagation();
               setIsRemoving(true);
               remove({ id: documentId })
-                .catch(() => toast.error("Something went wrong"))
                 .then(() => {
-                  router.push("/");
-                  console.log("a");
                   toast.success("Document removed");
-                  console.log("b");
-
-                  console.log("c");
+                  setOpen(false);
+                  router.push("/");
                 })
+                .catch(() => toast.error("Something went wrong"))
                 .finally(() => {
                   setIsRemoving(false);
                 });
