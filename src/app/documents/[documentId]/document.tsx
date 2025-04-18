@@ -12,6 +12,8 @@ import { usePreloadedQuery } from "convex/react";
 export function Document({ preloadedDocument }: DocumentProps) {
   const document = usePreloadedQuery(preloadedDocument);
 
+  if (!document) return <></>
+
   return (
     <Room>
       <div className="min-h-screen bg-[#FAFBFD]">

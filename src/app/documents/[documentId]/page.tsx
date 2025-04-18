@@ -26,12 +26,12 @@ const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
     );
   } catch (error) {
     console.error("Failed to preload document:", error);
-   redirect("/")
+    redirect("/");
   }
 
   if (!preloadedDocument) {
-    console.log("here")
-    return redirect("/")
+    console.log("here");
+    return redirect("/");
   }
 
   return <Document preloadedDocument={preloadedDocument} />;
