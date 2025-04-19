@@ -12,7 +12,7 @@ import { usePreloadedQuery } from "convex/react";
 export function Document({ preloadedDocument }: DocumentProps) {
   const document = usePreloadedQuery(preloadedDocument);
 
-  if (!document) return <></>
+  if (!document) return null;
 
   return (
     <Room>
