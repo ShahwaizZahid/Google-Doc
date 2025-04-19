@@ -6,6 +6,7 @@ import { api } from "../../../../convex/_generated/api";
 
 import { DocumentIdPageProps } from "@/constants/types";
 import { redirect } from "next/navigation";
+import OwnerValidateProvider from "@/hooks/useOwnerLoader";
 
 const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
   const { documentId } = await params;
@@ -34,7 +35,11 @@ const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
     return redirect("/");
   }
 
-  return <Document preloadedDocument={preloadedDocument} />;
+  return (
+    <OwnerValidateProvider>
+      <Document preloadedDocument={preloadedDocument} />;
+    </OwnerValidateProvider>
+  );
 };
 
 export default DocumentIdPage;
