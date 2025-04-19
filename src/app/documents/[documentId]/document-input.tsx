@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { LoaderIcon } from "lucide-react";
 import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
@@ -11,10 +11,12 @@ import { toast } from "sonner";
 import { useMutation } from "convex/react";
 import { useStatus } from "@liveblocks/react";
 import { api } from "../../../../convex/_generated/api";
+import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
 
 export default function DocumentInput({ title, id }: DocumentInputProps) {
   const status = useStatus();
 
+  const { showLoader, setShowLoader } = useShowLoaderOwnerValidate()!;
   const [value, setValue] = useState(title);
   const [isPending, setIsPending] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -56,9 +58,13 @@ export default function DocumentInput({ title, id }: DocumentInputProps) {
       .finally(() => setIsPending(false));
   };
 
-  const showLoader =
-    isPending || status === "connecting" || status === "reconnecting";
-
+  // const showLoader =
+  //   isPending || status === "connecting" || status === "reconnecting";
+  useEffect(() => {
+    const isLoading =
+      isPending || status === "connecting" || status === "reconnecting";
+    setShowLoader(isLoading);
+  }, [isPending, status, setShowLoader]);
   const showError = status === "disconnected";
   return (
     <div className="flex items-center gap-2">
@@ -82,6 +88,8 @@ export default function DocumentInput({ title, id }: DocumentInputProps) {
             setTimeout(() => {
               inputRef.current?.focus();
             }, 0);
+
+            // TODO: remove this when the bug is fixed
             // setIsError(false);
             // setIsCreating(false);
             // setValue(title);
