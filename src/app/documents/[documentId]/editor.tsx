@@ -30,8 +30,12 @@ import { LineHeightExtension } from "@/extensions/line-height";
 import { useStorage } from "@liveblocks/react";
 import { useEditorStore } from "@/store/use-editor-store";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
+import FullscreenLoader from "@/components/fullscreen-loader";
 
 export default function Editor({ initialContent }: EditorProps) {
+  const { showLoader } = useShowLoaderOwnerValidate()!;
+
   const leftMargin =
     useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const rightMargin =
@@ -100,11 +104,13 @@ export default function Editor({ initialContent }: EditorProps) {
     ],
   });
 
-  return (
-    <div className="size-full overflow-x-auto   bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
+  return showLoader ? (
+    <FullscreenLoader label="Document loading , please wait ................" />
+  ) : (
+    <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
       <Ruler />
       <div
-        className={`min-w-max mx-auto flex justify-center w-[${PAGE_WIDTH}px]  py-y print:py-0 print:w-full print:min-w-0 mt-4`}
+        className={`min-w-max mx-auto flex justify-center w-[${PAGE_WIDTH}px] py-y print:py-0 print:w-full print:min-w-0 mt-4`}
       >
         <EditorContent editor={editor} />
         <Threads editor={editor} />
