@@ -322,7 +322,11 @@ export default function Navbar({ data }: Navbarprops) {
             <Share2 className="h-4 w-4" />
           </Tooltip>
         </Button>
-        <ShareDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+        <ShareDialog
+          open={isDialogOpen}
+          documentId={data._id}
+          onOpenChange={setIsDialogOpen}
+        />
 
         <Inbox />
         <OrganizationSwitcher
