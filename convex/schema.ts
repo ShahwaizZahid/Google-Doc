@@ -15,4 +15,16 @@ export default defineSchema({
       searchField: "title",
       filterFields: ["ownerId", "organizationId"],
     }),
+
+  documentShares: defineTable({
+    documentId: v.id("documents"),
+    email: v.string(),
+    permission: v.union(v.literal("read"), v.literal("edit")),
+    token: v.string(),
+    expiresAt: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_document_id", ["documentId"])
+    .index("by_email", ["email"])
+    .index("by_token", ["token"]),
 });
