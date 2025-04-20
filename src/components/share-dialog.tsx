@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,17 +18,29 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
-type ShareDialogProps = {
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
+
+interface ShareDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+  documentId: string; // Pass the document ID as a prop
+}
 
-export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
+export function ShareDialog({
+  open,
+  onOpenChange,
+  documentId,
+}: ShareDialogProps) {
   const [shareLink, setShareLink] = useState("");
   const [email, setEmail] = useState("");
-  const [permission, setPermission] = useState("read");
+  const [permission, setPermission] = useState<"read" | "edit">("read");
   const [isOrgDocument, setIsOrgDocument] = useState(false);
   const [isSecondDialogOpen, setIsSecondDialogOpen] = useState(false);
+
+  // Use the Convex mutation
+  const createShareLink = useMutation(api.documents.createShareLink);
 
   const isValidEmail = (email: string) => {
     // Simple regex for email validation
@@ -36,7 +48,7 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
     return emailRegex.test(email);
   };
 
-  const generateShareLink = () => {
+  const generateShareLink = async () => {
     if (isOrgDocument) {
       alert("This document belongs to an organization and cannot be shared.");
       return;
@@ -45,16 +57,26 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
     if (!isValidEmail(email)) {
       return toast.error("Please enter a valid email address.");
     }
+    if (!documentId) {
+      return toast.error("Document ID is required.");
+    }
 
-    // Generate a mock token
-    const mockToken = "t" + Math.random().toString(36).substring(2, 15);
+    try {
+      const documentIdAsId = documentId as Id<"documents">;
 
-    // Get the base URL using window.location.pathname
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    const newLink = `${baseUrl}?token=${mockToken}&permission=${permission}`;
+      const result = await createShareLink({
+        documentId: documentIdAsId,
+        email,
+        permission,
+      });
 
-    setShareLink(newLink);
-    setIsSecondDialogOpen(true); // Open the second dialog
+      setShareLink(result.message); // Set the generated share link
+      setIsSecondDialogOpen(true); // Open the second dialog
+      toast.success(result.message);
+    } catch (error) {
+      console.error("Error generating share link:", error);
+      toast.error("Failed to generate share link. Please try again.");
+    }
   };
 
   const copyToClipboard = (text: string) => {
@@ -62,9 +84,18 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
     toast.success("Link copied to clipboard!");
   };
 
+  useEffect(() => {
+    if (!open) {
+      setEmail("");
+      setPermission("read");
+      setIsOrgDocument(false);
+      setShareLink("");
+      setIsSecondDialogOpen(false);
+    }
+  }, [open]);
+
   return (
     <>
-      {/* Main Dialog */}
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-md md:max-w-2xl">
           <DialogHeader>
@@ -100,7 +131,9 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
               <Label>Set Permissions</Label>
               <RadioGroup
                 value={permission}
-                onValueChange={setPermission}
+                onValueChange={(value: string) =>
+                  setPermission(value as "read" | "edit")
+                }
                 className="flex flex-col space-y-1"
               >
                 <div className="flex items-center space-x-2">
