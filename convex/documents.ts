@@ -271,3 +271,25 @@ export const createShareLink = mutation({
     };
   },
 });
+
+export const deleteExpiredShareLinks = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const now = Date.now(); // Current time
+
+    // Use the new index 'by_expires_at' for a more efficient query
+    const expiredLinks = await ctx.db
+      .query("documentShares")
+      .withIndex("by_expires_at", (q) => q.lt("expiresAt", now)) // Use index to filter by expiresAt
+      .collect();
+
+    // Delete expired links
+    for (const link of expiredLinks) {
+      await ctx.db.delete(link._id);
+    }
+
+    return {
+      message: `${expiredLinks.length} expired share links deleted.`,
+    };
+  },
+});
