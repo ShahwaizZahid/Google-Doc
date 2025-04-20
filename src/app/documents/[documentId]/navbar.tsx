@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import { Share2 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
 
 import { Inbox } from "./inbox";
@@ -51,11 +52,15 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useEditorStore } from "@/store/use-editor-store";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { ShareDialog } from "@/components/share-dialog";
 
 export default function Navbar({ data }: Navbarprops) {
   const router = useRouter();
   const { editor } = useEditorStore();
   const mutation = useMutation(api.documents.create);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const onNewDocument = () => {
     mutation({
@@ -305,6 +310,17 @@ export default function Navbar({ data }: Navbarprops) {
       </div>
       <div className="flex items-center gap-3 pl-6">
         <Avatars />
+
+        {/* Share button */}
+        <Button
+          variant="outline"
+          onClick={() => setIsDialogOpen(true)}
+          className="flex items-center gap-2"
+        >
+          <Share2 className="h-4 w-4" />
+        </Button>
+        <ShareDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+
         <Inbox />
         <OrganizationSwitcher
           afterCreateOrganizationUrl="/"
