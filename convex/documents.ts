@@ -1,7 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { paginationOptsValidator } from "convex/server";
-
+// import { randomBytes } from "crypto";
 export const getByIds = query({
   args: { ids: v.array(v.id("documents")) },
   handler: async (ctx, { ids }) => {
@@ -168,5 +168,106 @@ export const getById = query({
     const document = await ctx.db.get(id);
 
     return document;
+  },
+});
+
+export const createShareLink = mutation({
+  args: {
+    documentId: v.id("documents"), // Ensure the type matches the schema
+    email: v.string(), // Email of the user
+    permission: v.union(v.literal("read"), v.literal("edit")), // Permission type
+  },
+  handler: async (ctx, { documentId, email, permission }) => {
+    const user = await ctx.auth.getUserIdentity();
+
+    // Check if the user is authenticated
+    if (!user) {
+      throw new Error(
+        "Unauthorized: You must be logged in to share a document."
+      );
+    }
+
+    // Fetch the document to ensure it exists and the user has access
+    const document = await ctx.db.get(documentId);
+
+    if (!document) {
+      console.log("Document not foundas");
+      throw new Error(
+        "Document not found: The specified document does not exist."
+      );
+    }
+
+    const isOwner = document.ownerId === user.subject;
+    const isOrganizationMember =
+      document.organizationId &&
+      document.organizationId === user.organization_id;
+
+    if (!isOwner && !isOrganizationMember) {
+      throw new Error(
+        "Unauthorized: You do not have permission to share this document."
+      );
+    }
+
+    const mockToken = "t" + Math.random().toString(36).substring(2, 15);
+    const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const createdAt = Date.now();
+    const expiresAt = createdAt + SEVEN_DAYS_IN_MS;
+
+    const existingShare = await ctx.db
+      .query("documentShares")
+      .withIndex("by_document_and_email", (q) =>
+        q.eq("documentId", documentId).eq("email", email)
+      )
+      .first();
+
+    if (existingShare) {
+      console.log("existing document share found");
+      if (existingShare.permission === permission) {
+        console.log("existing document share found same permission");
+        await ctx.db.patch(existingShare._id, {
+          token: mockToken,
+          expiresAt,
+          createdAt,
+        });
+        return {
+          message: "Share link updated with the same permission.",
+          token: mockToken,
+          shareId: existingShare._id,
+          expiresAt,
+        };
+      } else if (existingShare.permission != permission) {
+        console.log("existing document share found different permission");
+        const newShareId = await ctx.db.insert("documentShares", {
+          documentId,
+          email,
+          permission,
+          token: mockToken,
+          expiresAt,
+          createdAt,
+        });
+        return {
+          message: "New share link created with updated permission.",
+          shareId: newShareId,
+          token: mockToken,
+          expiresAt,
+        };
+      }
+    }
+    console.log("new document share found");
+    const newShareId = await ctx.db.insert("documentShares", {
+      documentId,
+      email,
+      permission,
+      token: mockToken,
+      expiresAt,
+      createdAt,
+    });
+
+    return {
+      message: "New share link created.",
+      shareId: newShareId,
+      token: mockToken,
+      expiresAt,
+    };
   },
 });
