@@ -22,11 +22,11 @@ import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 
-interface ShareDialogProps {
+type ShareDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  documentId: string; // Pass the document ID as a prop
-}
+  documentId: string;
+};
 
 export function ShareDialog({
   open,
@@ -39,11 +39,9 @@ export function ShareDialog({
   const [isOrgDocument, setIsOrgDocument] = useState(false);
   const [isSecondDialogOpen, setIsSecondDialogOpen] = useState(false);
 
-  // Use the Convex mutation
   const createShareLink = useMutation(api.documents.createShareLink);
 
   const isValidEmail = (email: string) => {
-    // Simple regex for email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -70,9 +68,11 @@ export function ShareDialog({
         permission,
       });
 
-      setShareLink(result.message); // Set the generated share link
+      console.log("loaction", window.location.origin);
+      const shareUrl = `${window.location.origin}/documents/${documentId}?sharetoken=${result.token}&permission=${permission}`;
+      setShareLink(shareUrl);
       setIsSecondDialogOpen(true); // Open the second dialog
-      toast.success(result.message);
+      toast.success("Share link generated successfully!");
     } catch (error) {
       console.error("Error generating share link:", error);
       toast.error("Failed to generate share link. Please try again.");
