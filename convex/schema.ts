@@ -24,6 +24,7 @@ export default defineSchema({
     expiresAt: v.number(),
     createdAt: v.number(),
   })
+    .index("by_document_and_email", ["documentId", "email"])
     .index("by_document_id", ["documentId"])
     .index("by_email", ["email"])
     .index("by_token", ["token"]),
