@@ -27,5 +27,6 @@ export default defineSchema({
     .index("by_document_and_email", ["documentId", "email"])
     .index("by_document_id", ["documentId"])
     .index("by_email", ["email"])
-    .index("by_token", ["token"]),
+    .index("by_token", ["token"])
+    .index("by_expires_at", ["expiresAt"]),
 });
