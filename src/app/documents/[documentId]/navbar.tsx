@@ -54,6 +54,7 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ShareDialog } from "@/components/share-dialog";
+import Tooltip from "@/components/tooltip";
 
 export default function Navbar({ data }: Navbarprops) {
   const router = useRouter();
@@ -317,7 +318,9 @@ export default function Navbar({ data }: Navbarprops) {
           onClick={() => setIsDialogOpen(true)}
           className="flex items-center gap-2"
         >
-          <Share2 className="h-4 w-4" />
+          <Tooltip label="share">
+            <Share2 className="h-4 w-4" />
+          </Tooltip>
         </Button>
         <ShareDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
 
