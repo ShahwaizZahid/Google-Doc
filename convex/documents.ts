@@ -173,8 +173,8 @@ export const getById = query({
 
 export const createShareLink = mutation({
   args: {
-    documentId: v.id("documents"), // Ensure the type matches the schema
-    email: v.string(), // Email of the user
+    documentId: v.id("documents"), 
+    email: v.string(), 
     permission: v.union(v.literal("read"), v.literal("edit")), // Permission type
   },
   handler: async (ctx, { documentId, email, permission }) => {
