@@ -313,35 +313,23 @@ export const getsByIdShareDocument = query({
         .withIndex("by_token", (q) => q.eq("token", sharetoken))
         .first();
       if (!shareLink) {
-        return {
-          message: "Unauthorized",
-          document: null,
-        };
+        throw new Error("Document not found");
       }
 
       if (shareLink.expiresAt < Date.now()) {
-        return {
-          message: "Share token has expired",
-          document: null,
-        };
+        throw new Error("Document not found");
       }
 
       if (shareLink.documentId !== id) {
-        return {
-          message: "Document not found",
-          document: null,
-        };
+        throw new Error("Document not found");
       }
 
       // If permission is provided, validate it
       if (permission && shareLink.permission !== permission) {
-        return {
-          message: "Url not correct!",
-          document: null,
-        };
+        throw new Error("Document not found");
       }
     }
 
-    return { document, message: "Document found" };
+    return document;
   },
 });
