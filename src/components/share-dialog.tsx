@@ -68,10 +68,9 @@ export function ShareDialog({
         permission,
       });
 
-      console.log("loaction", window.location.origin);
       const shareUrl = `${window.location.origin}/documents/${documentId}?sharetoken=${result.token}&permission=${permission}`;
       setShareLink(shareUrl);
-      setIsSecondDialogOpen(true); // Open the second dialog
+      setIsSecondDialogOpen(true);
       toast.success("Share link generated successfully!");
     } catch (error) {
       console.error("Error generating share link:", error);
