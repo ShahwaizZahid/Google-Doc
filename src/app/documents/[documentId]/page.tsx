@@ -8,15 +8,25 @@ import { DocumentIdPageProps } from "@/constants/types";
 import { redirect } from "next/navigation";
 import OwnerValidateProvider from "@/hooks/useOwnerLoader";
 
-const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
+const DocumentIdPage = async ({
+  params,
+  searchParams,
+}: DocumentIdPageProps) => {
   const { documentId } = await params;
+  const { sharetoken, permission } = searchParams || {}; // Extract query parameters from the URL
   const { getToken } = await auth();
   const token = (await getToken({ template: "convex" })) ?? undefined;
 
   if (!token) {
     throw new Error("Unauthorized");
   }
-
+  if (!sharetoken || !permission) {
+    console.log("No sharetoken or permission provided");
+  }
+  if (sharetoken && permission) {
+    console.log("sharetoken ", sharetoken);
+    console.log("permission ", permission);
+  }
   let preloadedDocument;
 
   try {
@@ -25,6 +35,17 @@ const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
       { id: documentId },
       { token }
     );
+    if (sharetoken && permission) {
+      const documentdata = await preloadQuery(
+        api.documents.getsByIdShareDocument,
+        {
+          id: documentId,
+          sharetoken: sharetoken,
+          permission: permission,
+        }
+      );
+      console.log(documentdata);
+    }
   } catch (error) {
     console.error("Failed to preload document:", error);
     redirect("/");
