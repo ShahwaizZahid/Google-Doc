@@ -162,19 +162,10 @@ export const updateById = mutation({
   },
 });
 
-export const getById = query({
-  args: { id: v.id("documents") },
-  handler: async (ctx, { id }) => {
-    const document = await ctx.db.get(id);
-
-    return document;
-  },
-});
-
 export const createShareLink = mutation({
   args: {
-    documentId: v.id("documents"), 
-    email: v.string(), 
+    documentId: v.id("documents"),
+    email: v.string(),
     permission: v.union(v.literal("read"), v.literal("edit")), // Permission type
   },
   handler: async (ctx, { documentId, email, permission }) => {
@@ -290,6 +281,37 @@ export const deleteExpiredShareLinks = mutation({
 
     return {
       message: `${expiredLinks.length} expired share links deleted.`,
+    };
+  },
+});
+
+export const getById = query({
+  args: { id: v.id("documents") },
+  handler: async (ctx, { id }) => {
+    const document = await ctx.db.get(id);
+
+    return document;
+  },
+});
+
+export const getsByIdShareDocument = query({
+  args: {
+    id: v.id("documents"),
+    sharetoken: v.optional(v.string()), // Optional share token
+    permission: v.optional(v.union(v.literal("read"), v.literal("edit"))), // Optional permission
+  },
+  handler: async (ctx, { id, sharetoken, permission }) => {
+    const document = await ctx.db.get(id);
+
+    if (!document) {
+      throw new Error("Document not found");
+    }
+    console.log("sharetoken ", sharetoken);
+    console.log("permission ", permission);
+    return {
+      message: "Document fetched successfully",
+      document: document,
+      status: 200,
     };
   },
 });
