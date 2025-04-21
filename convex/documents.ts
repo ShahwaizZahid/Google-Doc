@@ -307,17 +307,12 @@ export const getsByIdShareDocument = query({
       throw new Error("Document not found");
     }
 
-    console.log("sharetoken ", sharetoken);
-    console.log("permission ", permission);
-
     if (sharetoken) {
       const shareLink = await ctx.db
         .query("documentShares")
         .withIndex("by_token", (q) => q.eq("token", sharetoken))
         .first();
-      console.log("sharelink", shareLink);
       if (!shareLink) {
-        console.log("Invalid share token");
         return {
           message: "Unauthorized",
           document: null,
@@ -332,7 +327,6 @@ export const getsByIdShareDocument = query({
       }
 
       if (shareLink.documentId !== id) {
-        console.log("Share token does not match the document");
         return {
           message: "Document not found",
           document: null,
@@ -341,14 +335,13 @@ export const getsByIdShareDocument = query({
 
       // If permission is provided, validate it
       if (permission && shareLink.permission !== permission) {
-        console.log("Permission mismatch");
         return {
           message: "Url not correct!",
           document: null,
         };
       }
-
-      return document;
     }
+
+    return { document, message: "Document found" };
   },
 });
