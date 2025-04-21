@@ -43,6 +43,10 @@ export type Navbarprops = {
 
 export type DocumentIdPageProps = {
   params: Promise<{ documentId: Id<"documents"> }>;
+  searchParams?: {
+    sharetoken?: string;
+    permission?: "read" | "edit";
+  };
 };
 
 export type User = {
