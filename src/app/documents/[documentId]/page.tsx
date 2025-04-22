@@ -7,6 +7,7 @@ import { api } from "../../../../convex/_generated/api";
 import { DocumentIdPageProps } from "@/constants/types";
 import { redirect } from "next/navigation";
 import OwnerValidateProvider from "@/hooks/useOwnerLoader";
+import PermissionValidateProvider from "@/hooks/useShareDocument";
 
 const DocumentIdPage = async ({
   params,
@@ -16,7 +17,6 @@ const DocumentIdPage = async ({
   const { sharetoken, permission } = (await searchParams) || {};
   const { getToken } = await auth();
   const token = (await getToken({ template: "convex" })) ?? undefined;
-
   if (!token) {
     throw new Error("Unauthorized");
   }
@@ -52,9 +52,15 @@ const DocumentIdPage = async ({
   }
 
   return (
-    <OwnerValidateProvider>
-      <Document preloadedDocument={preloadedDocument} />;
-    </OwnerValidateProvider>
+    <PermissionValidateProvider>
+      <OwnerValidateProvider>
+        <Document
+          preloadedDocument={preloadedDocument}
+          sharetoken={sharetoken}
+          permission={permission ? permission : null}
+        />
+      </OwnerValidateProvider>
+    </PermissionValidateProvider>
   );
 };
 
