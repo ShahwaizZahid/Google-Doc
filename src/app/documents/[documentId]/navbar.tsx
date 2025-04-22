@@ -56,11 +56,14 @@ import { Button } from "@/components/ui/button";
 import { ShareDialog } from "@/components/share-dialog";
 import Tooltip from "@/components/tooltip";
 import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 
 export default function Navbar({ data }: Navbarprops) {
   const router = useRouter();
   const { editor } = useEditorStore();
   const mutation = useMutation(api.documents.create);
+
+  const { shareDocument } = usePermissionValidate()!;
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -316,24 +319,30 @@ export default function Navbar({ data }: Navbarprops) {
         <Avatars />
 
         {/* Share button */}
-        <Button
-          disabled={showLoader}
-          variant="outline"
-          onClick={() => setIsDialogOpen(true)}
-          className="flex items-center gap-2"
-        >
-          <Tooltip label="share">
-            <Share2 className="h-4 w-4" />
-          </Tooltip>
-        </Button>
-        <ShareDialog
-        isOrganizationDocument={data.organizationId ? true : false}   
-          open={isDialogOpen}
-          documentId={data._id}
-          onOpenChange={setIsDialogOpen}
-        />
 
-        <Inbox />
+        {!shareDocument && (
+          <>
+            <Button
+              disabled={showLoader}
+              variant="outline"
+              onClick={() => setIsDialogOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <Tooltip label="share">
+                <Share2 className="h-4 w-4" />
+              </Tooltip>
+            </Button>
+            <ShareDialog
+              isOrganizationDocument={data.organizationId ? true : false}
+              open={isDialogOpen}
+              documentId={data._id}
+              onOpenChange={setIsDialogOpen}
+            />
+          </>
+        )}
+
+        {!shareDocument && <Inbox />}
+
         <OrganizationSwitcher
           afterCreateOrganizationUrl="/"
           afterLeaveOrganizationUrl="/"
