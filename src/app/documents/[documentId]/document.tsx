@@ -1,5 +1,6 @@
 "use client";
 
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 import Editor from "./editor";
 import Navbar from "./navbar";
 import { Room } from "./room";
@@ -9,11 +10,25 @@ import { DocumentProps } from "@/constants/types";
 
 import { usePreloadedQuery } from "convex/react";
 
-export function Document({ preloadedDocument }: DocumentProps) {
+export function Document({
+  preloadedDocument,
+  sharetoken,
+  permission,
+}: DocumentProps) {
+  const { setShareDocument, setPermission } = usePermissionValidate()!;
   const document = usePreloadedQuery(preloadedDocument);
 
   if (!document) return null;
 
+  if (!sharetoken && !permission) {
+    if (permission === undefined) {
+      setPermission(null);
+    }
+    setShareDocument(false);
+  } else if (sharetoken && permission) {
+    setPermission(permission);
+    setShareDocument(true);
+  }
   return (
     <Room>
       <div className="min-h-screen bg-[#FAFBFD]">
