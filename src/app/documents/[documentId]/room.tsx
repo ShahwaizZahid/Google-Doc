@@ -8,6 +8,8 @@ import { getUsers, getDocuments } from "./action";
 import FullscreenLoader from "@/components/fullscreen-loader";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
+import { useSearchParams } from "next/navigation";
+
 import { toast } from "sonner";
 
 import {
@@ -19,6 +21,10 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 export function Room({ children }: { children: ReactNode }) {
   const params = useParams();
+  const searchParams = useSearchParams();
+
+  const sharetoken = searchParams.get("sharetoken");
+  const permission = searchParams.get("permission");
 
   const [users, setUsers] = useState<User[]>([]);
 
@@ -47,7 +53,7 @@ export function Room({ children }: { children: ReactNode }) {
 
         const response = await fetch(endpoint, {
           method: "POST",
-          body: JSON.stringify({ room }),
+          body: JSON.stringify({ room, sharetoken, permission }),
         });
 
         return await response.json();
