@@ -30,7 +30,6 @@ export type DocumentInputProps = {
 };
 
 export type DocumentProps = {
-  toastMessage: string;
   preloadedDocument: Preloaded<typeof api.documents.getById>;
 };
 
