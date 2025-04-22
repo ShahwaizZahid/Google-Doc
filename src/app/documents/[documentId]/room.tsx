@@ -18,18 +18,32 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { Id } from "../../../../convex/_generated/dataModel";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 
 export function Room({ children }: { children: ReactNode }) {
   const params = useParams();
   const searchParams = useSearchParams();
-
+  const { setPermission, setShareDocument } = usePermissionValidate()!;
   const sharetoken = searchParams.get("sharetoken");
   const permission = searchParams.get("permission");
 
   const allowedPermissions = ["read", "edit", null];
-
   if (!allowedPermissions.includes(permission)) {
     throw new Error("Document not found");
+  }
+
+  if (!sharetoken && !permission) {
+    if (permission === undefined) {
+      setPermission(null);
+    }
+    setShareDocument(false);
+  } else if (sharetoken && permission) {
+    if (permission === "edit") {
+      setPermission("edit");
+    } else if (permission === "read") {
+      setPermission("read");
+    }
+    setShareDocument(true);
   }
 
   const [users, setUsers] = useState<User[]>([]);
