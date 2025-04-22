@@ -55,6 +55,7 @@ import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ShareDialog } from "@/components/share-dialog";
 import Tooltip from "@/components/tooltip";
+import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
 
 export default function Navbar({ data }: Navbarprops) {
   const router = useRouter();
@@ -62,6 +63,8 @@ export default function Navbar({ data }: Navbarprops) {
   const mutation = useMutation(api.documents.create);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { showLoader } = useShowLoaderOwnerValidate()!;
 
   const onNewDocument = () => {
     mutation({
@@ -314,6 +317,7 @@ export default function Navbar({ data }: Navbarprops) {
 
         {/* Share button */}
         <Button
+          disabled={showLoader}
           variant="outline"
           onClick={() => setIsDialogOpen(true)}
           className="flex items-center gap-2"
@@ -323,6 +327,7 @@ export default function Navbar({ data }: Navbarprops) {
           </Tooltip>
         </Button>
         <ShareDialog
+        isOrganizationDocument={data.organizationId ? true : false}   
           open={isDialogOpen}
           documentId={data._id}
           onOpenChange={setIsDialogOpen}
