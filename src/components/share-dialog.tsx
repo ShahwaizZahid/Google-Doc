@@ -26,9 +26,11 @@ type ShareDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   documentId: string;
+  isOrganizationDocument: boolean;
 };
 
 export function ShareDialog({
+  isOrganizationDocument,
   open,
   onOpenChange,
   documentId,
@@ -40,6 +42,14 @@ export function ShareDialog({
   const [isSecondDialogOpen, setIsSecondDialogOpen] = useState(false);
 
   const createShareLink = useMutation(api.documents.createShareLink);
+
+  useEffect(() => {
+    if (isOrganizationDocument) {
+      setIsOrgDocument(true);
+    } else {
+      setIsOrgDocument(false);
+    }
+  }, [isOrganizationDocument]);
 
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,7 +97,6 @@ export function ShareDialog({
     if (!open) {
       setEmail("");
       setPermission("read");
-      setIsOrgDocument(false);
       setShareLink("");
       setIsSecondDialogOpen(false);
     }
@@ -123,6 +132,7 @@ export function ShareDialog({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1"
+                disabled={isOrgDocument}
               />
             </div>
 
@@ -162,11 +172,9 @@ export function ShareDialog({
                 id="orgDocument"
                 checked={isOrgDocument}
                 onChange={(e) => setIsOrgDocument(e.target.checked)}
-                className="rounded border-gray-300"
+                className="rounded hidden border-gray-300"
+                disabled
               />
-              <Label htmlFor="orgDocument" className="text-sm font-normal">
-                This document belongs to an organization
-              </Label>
             </div>
           </div>
 
