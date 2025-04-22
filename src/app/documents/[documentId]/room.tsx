@@ -26,6 +26,13 @@ export function Room({ children }: { children: ReactNode }) {
   const sharetoken = searchParams.get("sharetoken");
   const permission = searchParams.get("permission");
 
+  const allowedPermissions = ["read", "edit", null];
+
+  if (!allowedPermissions.includes(permission)) {
+    toast.error("Document not found");
+    throw new Error("Document not found");
+  }
+
   const [users, setUsers] = useState<User[]>([]);
 
   const fetchUsers = useMemo(
