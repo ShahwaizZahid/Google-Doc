@@ -12,10 +12,11 @@ import { useMutation } from "convex/react";
 import { useStatus } from "@liveblocks/react";
 import { api } from "../../../../convex/_generated/api";
 import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 
 export default function DocumentInput({ title, id }: DocumentInputProps) {
   const status = useStatus();
-
+  const { shareDocument } = usePermissionValidate()!;
   const { showLoader, setShowLoader } = useShowLoaderOwnerValidate()!;
   const [value, setValue] = useState(title);
   const [isPending, setIsPending] = useState(false);
@@ -84,6 +85,7 @@ export default function DocumentInput({ title, id }: DocumentInputProps) {
       ) : (
         <span
           onClick={() => {
+            if (shareDocument) return;
             setIsEditing(true);
             setTimeout(() => {
               inputRef.current?.focus();
