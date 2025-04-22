@@ -307,7 +307,7 @@ export const getsByIdShareDocument = query({
       throw new Error("Document not found");
     }
 
-    if (sharetoken) {
+    if (sharetoken && permission) {
       const shareLink = await ctx.db
         .query("documentShares")
         .withIndex("by_token", (q) => q.eq("token", sharetoken))
