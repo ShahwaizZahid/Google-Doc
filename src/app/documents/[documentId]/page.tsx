@@ -23,36 +23,25 @@ const DocumentIdPage = async ({
   if (!sharetoken || !permission) {
     console.log("No sharetoken or permission provided");
   }
-  if (sharetoken && permission) {
-    console.log("sharetoken ", sharetoken);
-    console.log("permission ", permission);
-  }
-  let preloadedDocument;
 
+  let preloadedDocument;
+  
   try {
     preloadedDocument = await preloadQuery(
-      api.documents.getById,
-      { id: documentId },
+      api.documents.getsByIdShareDocument,
+      {
+        id: documentId,
+        sharetoken: sharetoken,
+        permission: permission,
+      },
       { token }
     );
-    if (sharetoken && permission) {
-      const documentdata = await preloadQuery(
-        api.documents.getsByIdShareDocument,
-        {
-          id: documentId,
-          sharetoken: sharetoken,
-          permission: permission,
-        }
-      );
-      console.log(documentdata);
-    }
-  } catch (error) {
-    console.error("Failed to preload document:", error);
+  } catch (e) {
+    console.error("Failed to preload document:", e);
     redirect("/");
   }
 
   if (!preloadedDocument) {
-    console.log("here");
     return redirect("/");
   }
 
