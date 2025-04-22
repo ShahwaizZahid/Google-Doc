@@ -31,6 +31,8 @@ export type DocumentInputProps = {
 
 export type DocumentProps = {
   preloadedDocument: Preloaded<typeof api.documents.getById>;
+  sharetoken?: string;
+  permission?: "read" | "edit" | null;
 };
 
 export type EditorProps = {
