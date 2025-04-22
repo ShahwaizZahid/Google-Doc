@@ -13,13 +13,19 @@ const DocumentIdPage = async ({
   searchParams,
 }: DocumentIdPageProps) => {
   const { documentId } = await params;
-  const { sharetoken, permission } = (await searchParams) || {}; 
+  const { sharetoken, permission } = (await searchParams) || {};
   const { getToken } = await auth();
   const token = (await getToken({ template: "convex" })) ?? undefined;
 
   if (!token) {
     throw new Error("Unauthorized");
   }
+  const allowedPermissions = ["read", "edit", undefined];
+  if (!allowedPermissions.includes(permission)) {
+    throw new Error("Document not found");
+  }
+  console.log(sharetoken, permission);
+
   if (!sharetoken || !permission) {
     console.log("No sharetoken or permission provided");
   }
