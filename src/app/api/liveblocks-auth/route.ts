@@ -8,6 +8,8 @@ const liveblocks = new Liveblocks({
   secret: process.env.LIVEBLOCKS_SECERT_KEY!,
 });
 export async function POST(req: Request) {
+  console.log("Liveblocks auth route hit");
+
   const { sessionClaims } = await auth();
 
   if (!sessionClaims) {
@@ -20,20 +22,31 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { room } = await req.json();
-  const document = await convex.query(api.documents.getById, { id: room });
+  const { room, sharetoken, permission } = await req.json();
+  console.log("sharetoken", sharetoken);
+  console.log("permission", permission);
+  // const document = await convex.query(api.documents.getById, { id: room });
+
+  const document = await convex.query(api.documents.getsByIdShareDocument, {
+    id: room,
+    sharetoken: sharetoken ? sharetoken : undefined,
+    permission: permission ? permission : undefined,
+  });
 
   if (!document) {
     return new Response("Unauthorized", { status: 401 });
   }
+  if (!sharetoken && !permission) {
+    console.log("check");
+    const isOwner = document.ownerId === user.id;
+    const isOrganizationMember = !!(
+      document.organizationId &&
+      document.organizationId === sessionClaims.org_id
+    );
 
-  const isOwner = document.ownerId === user.id;
-  const isOrganizationMember = !!(
-    document.organizationId && document.organizationId === sessionClaims.org_id
-  );
-
-  if (!isOwner && !isOrganizationMember) {
-    return new Response("Unauthorized", { status: 401 });
+    if (!isOwner && !isOrganizationMember) {
+      return new Response("Unauthorized", { status: 401 });
+    }
   }
 
   const name =
