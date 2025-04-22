@@ -13,7 +13,7 @@ const DocumentIdPage = async ({
   searchParams,
 }: DocumentIdPageProps) => {
   const { documentId } = await params;
-  const { sharetoken, permission } = searchParams || {}; // Extract query parameters from the URL
+  const { sharetoken, permission } = (await searchParams) || {}; 
   const { getToken } = await auth();
   const token = (await getToken({ template: "convex" })) ?? undefined;
 
@@ -25,7 +25,7 @@ const DocumentIdPage = async ({
   }
 
   let preloadedDocument;
-  
+
   try {
     preloadedDocument = await preloadQuery(
       api.documents.getsByIdShareDocument,
