@@ -8,6 +8,7 @@ import { DocumentIdPageProps } from "@/constants/types";
 import { redirect } from "next/navigation";
 import OwnerValidateProvider from "@/hooks/useOwnerLoader";
 import PermissionValidateProvider from "@/hooks/useShareDocument";
+import { console } from "node:inspector";
 
 const DocumentIdPage = async ({
   params,
@@ -17,17 +18,14 @@ const DocumentIdPage = async ({
   const { sharetoken, permission } = (await searchParams) || {};
   const { getToken } = await auth();
   const token = (await getToken({ template: "convex" })) ?? undefined;
+  const allowedPermissions = ["read", "edit", undefined];
+
   if (!token) {
     throw new Error("Unauthorized");
   }
-  const allowedPermissions = ["read", "edit", undefined];
+
   if (!allowedPermissions.includes(permission)) {
     throw new Error("Document not found");
-  }
-  console.log(sharetoken, permission);
-
-  if (!sharetoken || !permission) {
-    console.log("No sharetoken or permission provided");
   }
 
   let preloadedDocument;
