@@ -348,12 +348,14 @@ export default function Navbar({ data }: Navbarprops) {
 
         {!shareDocument && <Inbox />}
 
-        <OrganizationSwitcher
-          afterCreateOrganizationUrl="/"
-          afterLeaveOrganizationUrl="/"
-          afterSelectOrganizationUrl="/"
-          afterSelectPersonalUrl="/"
-        />
+        <div className="hidden md:block">
+          <OrganizationSwitcher
+            afterCreateOrganizationUrl="/"
+            afterLeaveOrganizationUrl="/"
+            afterSelectOrganizationUrl="/"
+            afterSelectPersonalUrl="/"
+          />
+        </div>
         <UserButton />
       </div>
     </nav>
