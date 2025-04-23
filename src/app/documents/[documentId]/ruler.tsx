@@ -7,10 +7,13 @@ import { PAGE_WIDTH } from "@/constants/page-width";
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 import { useStorage, useMutation } from "@liveblocks/react";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 
 const marker = Array.from({ length: 83 }, (_, i) => i);
 
 export default function Ruler() {
+  const { permission } = usePermissionValidate()!;
+
   const leftMargin =
     useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const setLeftMargin = useMutation(({ storage }, position: number) => {
@@ -80,7 +83,7 @@ export default function Ruler() {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className={`h-6 w-[${PAGE_WIDTH}px] mx-auto border-b border-gray-300 flex items-end select-none print:hidden`}
+      className={`h-6 w-[${PAGE_WIDTH}px] mx-auto border-b border-gray-300 flex items-end select-none print:hidden ${permission === "read" ? "hidden" : "block"} `}
     >
       <div id="ruler-container" className="w-full h-full relative">
         <Marker
