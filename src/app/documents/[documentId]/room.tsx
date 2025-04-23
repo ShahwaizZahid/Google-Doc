@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import { User } from "@/constants/types";
@@ -70,6 +70,28 @@ export function Room({ children }: { children: ReactNode }) {
       authEndpoint={async () => {
         const endpoint = "/api/liveblocks-auth";
         const room = params.documentId as string;
+
+        if (sharetoken && permission) {
+          const responses = await fetch("/api/ownerAuth", {
+            method: "POST",
+            body: JSON.stringify({ room }),
+          });
+
+          if (responses.ok) {
+            const text = await responses.text();
+            const isOwner = text.trim() === "true";
+
+            if (isOwner) {
+              toast.success("You are the owner of this document");
+              setPermission(null);
+              setShareDocument(false);
+              redirect(`/documents/${room}`);
+            }
+          } else {
+            toast.error("Unauthorizer");
+            redirect("/");
+          }
+        }
 
         const response = await fetch(endpoint, {
           method: "POST",
