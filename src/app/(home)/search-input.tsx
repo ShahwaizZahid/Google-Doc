@@ -28,36 +28,38 @@ export default function SearchInput() {
     inputRef.current?.blur();
   };
   return (
-    <div className=" flex flex-1 items-center justify-center">
-      <form onSubmit={handleSubmit} className="relative max-w-[720px] w-full">
-        <input
-          value={value}
-          onChange={handleChange}
-          ref={inputRef}
-          placeholder="Search"
-          className="md:text-base placeholder:text-neutral-800 px-14 w-full border-none focus-visible:shadow-[0_1px_1px_0_rgba(65,69,73,.3),0_1px_3px_1px_rgba(65,69,73,.15)] bg-[#F0F4F8] rounded-full h-[48px] focus-visible:ring-0 focus:bg-white outline-none"
-        />
-        <Button
-          type="submit"
-          variant="ghost"
-          size="icon"
-          className="absolute left-3 top-1/2 -translate-y-1/2 [$_svg]:size-5 rounded-full"
-        >
-          <SearchIcon />
-        </Button>
-
-        {value && (
+    <div className="hidden md:block">
+      <div className=" flex flex-1 items-center justify-center">
+        <form onSubmit={handleSubmit} className="relative max-w-[720px] w-full">
+          <input
+            value={value}
+            onChange={handleChange}
+            ref={inputRef}
+            placeholder="Search"
+            className="md:text-base placeholder:text-neutral-800 px-14 w-full border-none focus-visible:shadow-[0_1px_1px_0_rgba(65,69,73,.3),0_1px_3px_1px_rgba(65,69,73,.15)] bg-[#F0F4F8] rounded-full h-[48px] focus-visible:ring-0 focus:bg-white outline-none"
+          />
           <Button
-            onClick={handleClear}
-            type="button"
+            type="submit"
             variant="ghost"
             size="icon"
-            className="absolute right-3 top-1/2 -translate-y-1/2 [$_svg]:size-5 rounded-full"
+            className="absolute left-3 top-1/2 -translate-y-1/2 [$_svg]:size-5 rounded-full"
           >
-            <XIcon />
+            <SearchIcon />
           </Button>
-        )}
-      </form>
+
+          {value && (
+            <Button
+              onClick={handleClear}
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-3 top-1/2 -translate-y-1/2 [$_svg]:size-5 rounded-full"
+            >
+              <XIcon />
+            </Button>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
