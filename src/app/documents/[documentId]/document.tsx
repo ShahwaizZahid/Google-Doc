@@ -9,6 +9,7 @@ import Toolbar from "./toolbar";
 import { DocumentProps } from "@/constants/types";
 
 import { usePreloadedQuery } from "convex/react";
+import { useEffect } from "react";
 
 export function Document({
   preloadedDocument,
@@ -18,17 +19,21 @@ export function Document({
   const { setShareDocument, setPermission } = usePermissionValidate()!;
   const document = usePreloadedQuery(preloadedDocument);
 
+
+  useEffect(() => {
+    if (!sharetoken && !permission) {
+      if (permission === undefined) {
+        setPermission(null);
+      }
+      setShareDocument(false);
+    } else if (sharetoken && permission) {
+      setPermission(permission);
+      setShareDocument(true);
+    }
+  }, [sharetoken, permission, setPermission, setShareDocument]);
+
   if (!document) return null;
 
-  if (!sharetoken && !permission) {
-    if (permission === undefined) {
-      setPermission(null);
-    }
-    setShareDocument(false);
-  } else if (sharetoken && permission) {
-    setPermission(permission);
-    setShareDocument(true);
-  }
   return (
     <Room>
       <div className="min-h-screen bg-[#FAFBFD]">
