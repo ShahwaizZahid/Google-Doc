@@ -18,17 +18,19 @@ export default function DocumentRow({ document }: DocumentRowProps) {
       onClick={() => router.push(`/documents/${document._id}`)}
       className="cursor-pointer"
     >
-      <TableCell className="w-[50px]">
+      <TableCell className="w-[50px] hidden md:block">
         <SiGoogledocs className="size-6 fill-blue-500" />
       </TableCell>
       <TableCell className="font-medium md:w-[45%]">{document.title}</TableCell>
-      <TableCell className="text-muted-foreground hidden md:flex items-center gap-2">
+      <TableCell className="text-muted-foreground flex items-center gap-2">
         {document.organizationId ? (
           <Building2Icon className="size-4" />
         ) : (
           <CircleUserIcon className="size-4" />
         )}
-        {document.organizationId ? "Organization" : "Personal"}
+        <span className="hidden md:block">
+          {document.organizationId ? "Organization" : "Personal"}
+        </span>
       </TableCell>
       <TableCell className="text-muted-foreground hidden md:table-cell">
         {format(new Date(document._creationTime), "MMM dd, yyyy")}

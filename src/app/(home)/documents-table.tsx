@@ -32,7 +32,7 @@ export default function DocumentsTables({
             <TableRow className=" hover:bg-transparent border-none">
               <TableHead>Name</TableHead>
               <TableHead>&nbsp;</TableHead>
-              <TableHead className="hidden md:table-cell">Shared</TableHead>
+              <TableHead className="">Shared</TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
             </TableRow>
           </TableHeader>
