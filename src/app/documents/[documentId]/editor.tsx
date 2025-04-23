@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Ruler from "./ruler";
 import { Threads } from "./threads";
 import { PAGE_WIDTH } from "@/constants/page-width";
@@ -32,10 +32,12 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
 import FullscreenLoader from "@/components/fullscreen-loader";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
 
 export default function Editor({ initialContent }: EditorProps) {
   const { showLoader } = useShowLoaderOwnerValidate()!;
-
+  const { permission } = usePermissionValidate()!;
+  console.log("editor", permission);
   const leftMargin =
     useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const rightMargin =
@@ -103,6 +105,14 @@ export default function Editor({ initialContent }: EditorProps) {
       TaskList,
     ],
   });
+  useEffect(() => {
+    console.log("editor outn", editor);
+    if (editor) {
+      console.log("editor in", editor);
+      editor.setEditable(permission !== "read");
+      console.log("editor ina", editor);
+    }
+  }, [editor, permission]);
 
   return showLoader ? (
     <FullscreenLoader label="Document loading , please wait ................" />
