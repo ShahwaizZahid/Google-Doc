@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 
 import {
   LucideIcon,
@@ -54,8 +56,12 @@ import {
 
 import { useEditorStore } from "@/store/use-editor-store";
 import { ToolbarButtonProps } from "@/constants/types";
+import { usePermissionValidate } from "@/hooks/useShareDocument";
+import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
 
 export default function Toolbar() {
+  const { permission } = usePermissionValidate()!;
+  const { showLoader } = useShowLoaderOwnerValidate()!;
   const { editor } = useEditorStore();
 
   const sections: {
@@ -120,7 +126,7 @@ export default function Toolbar() {
         label: "Comment",
         icon: MessageSquarePlusIcon,
         onClick: () => editor?.chain().focus().addPendingComment().run(),
-        isActive: editor?.isActive("liveblockCommentMark"), // TODO: Implement this feature
+        isActive: editor?.isActive("liveblockCommentMark"),
       },
       {
         label: "List Todo",
@@ -136,8 +142,20 @@ export default function Toolbar() {
     ],
   ];
 
-  return (
-    <div className="bg-[#f1f4f9] px-2.5 py-0.5 rounded-[24px] min-h-[40px] flex items-center gap-x-0.5 overflow-x-auto">
+  return permission === "read" ? (
+    <Alert
+      variant="destructive"
+      className={`mb-4 ${showLoader ? "hidden" : "block"}`}
+    >
+      <AlertDescription className="flex items-center ">
+        <Info className="h-4 w-4" />
+        <p> You have read-only access. Editing and sharing are disabled.</p>
+      </AlertDescription>
+    </Alert>
+  ) : (
+    <div
+      className={`bg-[#f1f4f9] px-2.5 py-0.5 rounded-[24px] min-h-[40px] flex items-center gap-x-0.5 overflow-x-auto`}
+    >
       {sections[0].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
@@ -151,14 +169,14 @@ export default function Toolbar() {
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
-      <TextColorButton /> {/*  Text color */}
-      <HighlightColorButton /> {/*  Highlight color */}
+      <TextColorButton /> {/* Text color */}
+      <HighlightColorButton /> {/* Highlight color */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      <LinkButton /> {/*  Link */}
+      <LinkButton /> {/* Link */}
       <ImageButton /> {/* Image */}
-      <AlignButton /> {/*Align */}
-      <LineHeightButton /> {/*  Line height */}
-      <ListButton /> {/*  List */}
+      <AlignButton /> {/* Align */}
+      <LineHeightButton /> {/* Line height */}
+      <ListButton /> {/* List */}
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
