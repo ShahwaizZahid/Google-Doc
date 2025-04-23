@@ -8,8 +8,6 @@ const liveblocks = new Liveblocks({
   secret: process.env.LIVEBLOCKS_SECERT_KEY!,
 });
 export async function POST(req: Request) {
-  console.log("Liveblocks auth route hit");
-
   const { sessionClaims } = await auth();
 
   if (!sessionClaims) {
@@ -23,9 +21,6 @@ export async function POST(req: Request) {
   }
 
   const { room, sharetoken, permission } = await req.json();
-  console.log("sharetoken", sharetoken);
-  console.log("permission", permission);
-  // const document = await convex.query(api.documents.getById, { id: room });
 
   const document = await convex.query(api.documents.getsByIdShareDocument, {
     id: room,
@@ -37,7 +32,6 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
   if (!sharetoken && !permission) {
-    console.log("check");
     const isOwner = document.ownerId === user.id;
     const isOrganizationMember = !!(
       document.organizationId &&
