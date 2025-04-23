@@ -333,3 +333,21 @@ export const getsByIdShareDocument = query({
     return document;
   },
 });
+
+export const isDocumentOwner = query({
+  args: {
+    id: v.id("documents"), // Document ID
+    userId: v.string(), // User ID
+  },
+  handler: async (ctx, { id, userId }) => {
+    const document = await ctx.db.get(id);
+
+    if (!document) {
+      return false;
+    }
+
+    const isOwner = document.ownerId === userId;
+
+    return isOwner;
+  },
+});
