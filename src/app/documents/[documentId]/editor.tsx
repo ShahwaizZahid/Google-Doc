@@ -37,7 +37,6 @@ import { usePermissionValidate } from "@/hooks/useShareDocument";
 export default function Editor({ initialContent }: EditorProps) {
   const { showLoader } = useShowLoaderOwnerValidate()!;
   const { permission } = usePermissionValidate()!;
-  console.log("editor", permission);
   const leftMargin =
     useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const rightMargin =
@@ -106,11 +105,8 @@ export default function Editor({ initialContent }: EditorProps) {
     ],
   });
   useEffect(() => {
-    console.log("editor outn", editor);
     if (editor) {
-      console.log("editor in", editor);
       editor.setEditable(permission !== "read");
-      console.log("editor ina", editor);
     }
   }, [editor, permission]);
 
