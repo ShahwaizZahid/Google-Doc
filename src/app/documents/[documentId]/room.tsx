@@ -32,19 +32,21 @@ export function Room({ children }: { children: ReactNode }) {
     throw new Error("Document not found");
   }
 
-  if (!sharetoken && !permission) {
-    if (permission === undefined) {
-      setPermission(null);
+  useEffect(() => {
+    if (!sharetoken && !permission) {
+      if (permission === undefined) {
+        setPermission(null);
+      }
+      setShareDocument(false);
+    } else if (sharetoken && permission) {
+      if (permission === "edit") {
+        setPermission("edit");
+      } else if (permission === "read") {
+        setPermission("read");
+      }
+      setShareDocument(true);
     }
-    setShareDocument(false);
-  } else if (sharetoken && permission) {
-    if (permission === "edit") {
-      setPermission("edit");
-    } else if (permission === "read") {
-      setPermission("read");
-    }
-    setShareDocument(true);
-  }
+  }, [sharetoken, permission, setPermission, setShareDocument]);
 
   const [users, setUsers] = useState<User[]>([]);
 
