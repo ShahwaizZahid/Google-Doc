@@ -123,7 +123,6 @@ export const removeById = mutation({
       throw new ConvexError("Unauthorized");
     }
 
-    console.log("ah....");
     return await ctx.db.delete(args.id);
   },
 });
@@ -171,18 +170,15 @@ export const createShareLink = mutation({
   handler: async (ctx, { documentId, email, permission }) => {
     const user = await ctx.auth.getUserIdentity();
 
-    // Check if the user is authenticated
     if (!user) {
       throw new Error(
         "Unauthorized: You must be logged in to share a document."
       );
     }
 
-    // Fetch the document to ensure it exists and the user has access
     const document = await ctx.db.get(documentId);
 
     if (!document) {
-      console.log("Document not foundas");
       throw new Error(
         "Document not found: The specified document does not exist."
       );
@@ -200,7 +196,7 @@ export const createShareLink = mutation({
     }
 
     const mockToken = "t" + Math.random().toString(36).substring(2, 15);
-    const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
     const createdAt = Date.now();
     const expiresAt = createdAt + SEVEN_DAYS_IN_MS;
 
@@ -212,9 +208,7 @@ export const createShareLink = mutation({
       .first();
 
     if (existingShare) {
-      console.log("existing document share found");
       if (existingShare.permission === permission) {
-        console.log("existing document share found same permission");
         await ctx.db.patch(existingShare._id, {
           token: mockToken,
           expiresAt,
@@ -227,7 +221,6 @@ export const createShareLink = mutation({
           expiresAt,
         };
       } else if (existingShare.permission != permission) {
-        console.log("existing document share found different permission");
         const newShareId = await ctx.db.insert("documentShares", {
           documentId,
           email,
@@ -244,7 +237,6 @@ export const createShareLink = mutation({
         };
       }
     }
-    console.log("new document share found");
     const newShareId = await ctx.db.insert("documentShares", {
       documentId,
       email,
@@ -266,15 +258,12 @@ export const createShareLink = mutation({
 export const deleteExpiredShareLinks = mutation({
   args: {},
   handler: async (ctx) => {
-    const now = Date.now(); // Current time
-
-    // Use the new index 'by_expires_at' for a more efficient query
+    const now = Date.now();
     const expiredLinks = await ctx.db
       .query("documentShares")
-      .withIndex("by_expires_at", (q) => q.lt("expiresAt", now)) // Use index to filter by expiresAt
+      .withIndex("by_expires_at", (q) => q.lt("expiresAt", now))
       .collect();
 
-    // Delete expired links
     for (const link of expiredLinks) {
       await ctx.db.delete(link._id);
     }
@@ -282,15 +271,6 @@ export const deleteExpiredShareLinks = mutation({
     return {
       message: `${expiredLinks.length} expired share links deleted.`,
     };
-  },
-});
-
-export const getById = query({
-  args: { id: v.id("documents") },
-  handler: async (ctx, { id }) => {
-    const document = await ctx.db.get(id);
-
-    return document;
   },
 });
 
@@ -324,7 +304,6 @@ export const getsByIdShareDocument = query({
         throw new Error("Document not found");
       }
 
-      // If permission is provided, validate it
       if (permission && shareLink.permission !== permission) {
         throw new Error("Document not found");
       }
@@ -336,8 +315,8 @@ export const getsByIdShareDocument = query({
 
 export const isDocumentOwner = query({
   args: {
-    id: v.id("documents"), // Document ID
-    userId: v.string(), // User ID
+    id: v.id("documents"),
+    userId: v.string(),
   },
   handler: async (ctx, { id, userId }) => {
     const document = await ctx.db.get(id);
