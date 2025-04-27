@@ -73,7 +73,6 @@ export default function Ruler() {
   };
 
   const handleRightDoubleClick = () => {
-    console.log("double");
     setRightMargin(RIGHT_MARGIN_DEFAULT);
   };
 
