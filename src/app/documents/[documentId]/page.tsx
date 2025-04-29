@@ -8,7 +8,6 @@ import { DocumentIdPageProps } from "@/constants/types";
 import { redirect } from "next/navigation";
 import OwnerValidateProvider from "@/hooks/useOwnerLoader";
 import PermissionValidateProvider from "@/hooks/useShareDocument";
-import { console } from "node:inspector";
 
 const DocumentIdPage = async ({
   params,
