@@ -30,7 +30,7 @@ export type DocumentInputProps = {
 };
 
 export type DocumentProps = {
-  preloadedDocument: Preloaded<typeof api.documents.getById>;
+  preloadedDocument: Preloaded<typeof api.documents.getsByIdShareDocument>;
   sharetoken?: string;
   permission?: "read" | "edit" | null;
 };
