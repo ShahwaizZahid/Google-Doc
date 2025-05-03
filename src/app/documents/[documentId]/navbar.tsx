@@ -174,16 +174,19 @@ export default function Navbar({ data }: Navbarprops) {
                       New Document
                     </MenubarItem>
                     <MenubarSeparator></MenubarSeparator>
+
                     <RenameDialog
                       documentId={data._id}
                       initialTitle={data.title}
                     >
-                      <MenubarItem>
+                      <MenubarItem
+                        onClick={(e) => e.stopPropagation()}
+                        onSelect={(e) => e.preventDefault()}
+                      >
                         <FilePenIcon className="size-4 mr-2" />
                         Rename
                       </MenubarItem>
                     </RenameDialog>
-
                     {/* TODO:    handle  the navigation  after deleting document*/}
                     <RemoveDialog documentId={data._id}>
                       <MenubarItem

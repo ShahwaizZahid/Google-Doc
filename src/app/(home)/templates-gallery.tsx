@@ -30,13 +30,8 @@ export default function TemplatesGallery() {
     try {
       const documentId = await create({ title, initialContent }); // Wait for the document to be created
       if (documentId) {
-        console.log(documentId);
-
-        // Wait for navigation to complete
         await router.push(`/documents/${documentId}`);
         toast.success("Document create successfully");
-      } else {
-        console.error("Failed to create document: documentId is null");
       }
     } catch (error) {
       toast.error("Something went wrong");
