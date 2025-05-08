@@ -175,28 +175,32 @@ export default function Navbar({ data }: Navbarprops) {
                     </MenubarItem>
                     <MenubarSeparator></MenubarSeparator>
 
-                    <RenameDialog
-                      documentId={data._id}
-                      initialTitle={data.title}
-                    >
-                      <MenubarItem
-                        onClick={(e) => e.stopPropagation()}
-                        onSelect={(e) => e.preventDefault()}
+                    {!shareDocument && (
+                      <RenameDialog
+                        documentId={data._id}
+                        initialTitle={data.title}
                       >
-                        <FilePenIcon className="size-4 mr-2" />
-                        Rename
-                      </MenubarItem>
-                    </RenameDialog>
+                        <MenubarItem
+                          onClick={(e) => e.stopPropagation()}
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          <FilePenIcon className="size-4 mr-2" />
+                          Rename
+                        </MenubarItem>
+                      </RenameDialog>
+                    )}
                     {/* TODO:    handle  the navigation  after deleting document*/}
-                    <RemoveDialog documentId={data._id}>
-                      <MenubarItem
-                        onClick={(e) => e.stopPropagation()}
-                        onSelect={(e) => e.preventDefault()}
-                      >
-                        <TrashIcon className="size-4 mr-2" />
-                        Remove
-                      </MenubarItem>
-                    </RemoveDialog>
+                    {!shareDocument && (
+                      <RemoveDialog documentId={data._id}>
+                        <MenubarItem
+                          onClick={(e) => e.stopPropagation()}
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          <TrashIcon className="size-4 mr-2" />
+                          Remove
+                        </MenubarItem>
+                      </RemoveDialog>
+                    )}
                     <MenubarSeparator></MenubarSeparator>
                     <MenubarItem onClick={() => window.print()}>
                       <PrinterIcon className="size-4 mr-2" />
