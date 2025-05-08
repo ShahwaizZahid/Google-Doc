@@ -1,10 +1,6 @@
 "use client";
+import { OwnerValidateContextType } from "@/constants/types";
 import { createContext, useContext, useState } from "react";
-
-export type OwnerValidateContextType = {
-  showLoader: boolean;
-  setShowLoader: (value: boolean) => void;
-};
 
 const OwnerValidateContext = createContext<OwnerValidateContextType | null>(
   null

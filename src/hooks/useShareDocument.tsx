@@ -1,12 +1,6 @@
 "use client";
+import { PermissionValidateContextType } from "@/constants/types";
 import { createContext, useContext, useState } from "react";
-
-export type PermissionValidateContextType = {
-  permission: "read" | "edit" | null;
-  setPermission: (value: "read" | "edit" | null) => void;
-  shareDocument: boolean;
-  setShareDocument: (value: boolean) => void;
-};
 
 const PermissionValidateContext =
   createContext<PermissionValidateContextType | null>(null);
