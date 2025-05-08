@@ -71,3 +71,26 @@ export type ToolbarButtonProps = {
   icon: LucideIcon;
   isActive?: boolean;
 };
+
+export type OwnerValidateContextType = {
+  showLoader: boolean;
+  setShowLoader: (value: boolean) => void;
+};
+
+export type PermissionValidateContextType = {
+  permission: "read" | "edit" | null;
+  setPermission: (value: "read" | "edit" | null) => void;
+  shareDocument: boolean;
+  setShareDocument: (value: boolean) => void;
+};
+
+export type RemoveDialogProps = {
+  documentId: Id<"documents">;
+  children: React.ReactNode; // Corrected the prop name
+};
+
+export type RenameDialogProps = {
+  documentId: Id<"documents">;
+  initialTitle: string;
+  children: React.ReactNode; // Corrected the prop name
+};
