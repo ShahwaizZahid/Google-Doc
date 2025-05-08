@@ -11,16 +11,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Id } from "../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-type RemoveDialogProps = {
-  documentId: Id<"documents">;
-  children: React.ReactNode; // Corrected the prop name
-};
+import { RemoveDialogProps } from "@/constants/types";
 
 export default function RemoveDialog({
   documentId,

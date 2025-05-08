@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Id } from "../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Input } from "./ui/input";
@@ -15,12 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-
-type RenameDialogProps = {
-  documentId: Id<"documents">;
-  initialTitle: string;
-  children: React.ReactNode; // Corrected the prop name
-};
+import { RenameDialogProps } from "@/constants/types";
 
 export default function RenameDialog({
   documentId,
