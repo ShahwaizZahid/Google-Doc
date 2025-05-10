@@ -470,7 +470,6 @@ function ImageButton() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
-    console.log(process.env.NEXT_PUBLIC_UPLOAD_PRESET);
 
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
@@ -490,8 +489,6 @@ function ImageButton() {
 
           const data = await res.json();
           const imageUrl = data.secure_url;
-          console.log("Uploaded Image URL:", imageUrl);
-
           onChange?.(imageUrl);
         } catch (err) {
           console.error("Upload failed", err);
