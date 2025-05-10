@@ -59,6 +59,9 @@ import { ToolbarButtonProps } from "@/constants/types";
 import { usePermissionValidate } from "@/hooks/useShareDocument";
 import { useShowLoaderOwnerValidate } from "@/hooks/useOwnerLoader";
 
+// import { UploadButton } from "@uploadthing/react";
+// import type { OurFileRouter } from "@/app/api/uploadThing/core";
+
 export default function Toolbar() {
   const { permission } = usePermissionValidate()!;
   const { showLoader } = useShowLoaderOwnerValidate()!;
@@ -463,18 +466,54 @@ function ImageButton() {
     editor?.chain().focus().setImage({ src }).run();
   };
 
-  const onUpload = () => {
+  // const onUpload = () => {
+  //   const input = document.createElement("input");
+  //   input.type = "file";
+  //   input.accept = "image/*";
+
+  //   input.onchange = (e) => {
+  //     const file = (e.target as HTMLInputElement).files?.[0];
+  //     if (file) {
+  //       const imageUrl = URL.createObjectURL(file);
+  //       onChange(imageUrl);
+  //     }
+  //   };
+  //   input.click();
+  // };
+
+  const handleImageUpload = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
 
-    input.onchange = (e) => {
+    input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        onChange(imageUrl);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "google_doc_preset");
+
+        try {
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/di2b6b4wd/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          const data = await res.json();
+          const imageUrl = data.secure_url;
+          console.log("Uploaded Image URL:", imageUrl);
+
+          // If you want to pass this URL back somewhere:
+          onChange?.(imageUrl); // optional callback
+        } catch (err) {
+          console.error("Upload failed", err);
+        }
       }
     };
+
     input.click();
   };
 
@@ -494,7 +533,7 @@ function ImageButton() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="p-2.5 items-center">
-          <DropdownMenuItem onClick={() => onUpload()}>
+          <DropdownMenuItem onClick={() => handleImageUpload()}>
             <UploadIcon className="size-4 mr-2" />
             Upload
           </DropdownMenuItem>
